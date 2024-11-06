@@ -55,13 +55,22 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""Mouse Position"",
                     ""type"": ""Value"",
                     ""id"": ""6e1c2b16-8fd0-4f35-bcbb-ce73ed1b2789"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""89372089-959c-474c-805d-0849cb07bdab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -125,6 +134,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""id"": ""c03e4309-46a8-4b94-9e86-19bead466602"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
+                    ""processors"": ""MouseCenteredInput"",
+                    ""groups"": """",
+                    ""action"": ""Mouse Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b55b806-9fdc-4dd7-8cec-e0cb8063a5f7"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Dash"",
@@ -141,6 +161,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Default_Move = m_Default.FindAction("Move", throwIfNotFound: true);
         m_Default_Jump = m_Default.FindAction("Jump", throwIfNotFound: true);
         m_Default_Run = m_Default.FindAction("Run", throwIfNotFound: true);
+        m_Default_MousePosition = m_Default.FindAction("Mouse Position", throwIfNotFound: true);
         m_Default_Dash = m_Default.FindAction("Dash", throwIfNotFound: true);
     }
 
@@ -211,6 +232,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_Move;
     private readonly InputAction m_Default_Jump;
     private readonly InputAction m_Default_Run;
+    private readonly InputAction m_Default_MousePosition;
     private readonly InputAction m_Default_Dash;
     public struct DefaultActions
     {
@@ -219,6 +241,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Default_Move;
         public InputAction @Jump => m_Wrapper.m_Default_Jump;
         public InputAction @Run => m_Wrapper.m_Default_Run;
+        public InputAction @MousePosition => m_Wrapper.m_Default_MousePosition;
         public InputAction @Dash => m_Wrapper.m_Default_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
@@ -238,6 +261,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
+            @MousePosition.started += instance.OnMousePosition;
+            @MousePosition.performed += instance.OnMousePosition;
+            @MousePosition.canceled += instance.OnMousePosition;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -254,6 +280,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
+            @MousePosition.started -= instance.OnMousePosition;
+            @MousePosition.performed -= instance.OnMousePosition;
+            @MousePosition.canceled -= instance.OnMousePosition;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -279,6 +308,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
 }

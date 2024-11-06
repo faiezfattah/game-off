@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -8,17 +9,19 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     private Input _inputActions;
 
     public event UnityAction RunEvent;
-    public event UnityAction JumpEvent;
+    public event UnityAction<bool> JumpEvent;
+    public event UnityAction<bool> DashEvent;
+    public event UnityAction<bool> DashHoldEvent;
 
     /// <summary>
     /// return mouse directional int
     /// </summary>
-    public event UnityAction<float> MoveEvent;
+    public event UnityAction<int> MoveEvent;
 
     /// <summary>
     /// return mouse location vector2
     /// </summary>
-    public event UnityAction<Vector2> DashEvent;
+    public event UnityAction<Vector2> MousePositionEvent;
 
     private void OnEnable() {
         if (_inputActions == null) {
@@ -36,14 +39,18 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public void OnRun(InputAction.CallbackContext ctx) {
         RunEvent?.Invoke();
     }
-    public void OnMove(InputAction.CallbackContext ctx) {
-        MoveEvent?.Invoke(ctx.ReadValue<float>());
+    public void OnMove(InputAction.CallbackContext ctx) {        
+        MoveEvent?.Invoke(Convert.ToInt32(ctx.ReadValue<float>()));
     }
     public void OnJump(InputAction.CallbackContext ctx) {
-        JumpEvent?.Invoke();
+        JumpEvent.Invoke(ctx.performed);
+    }
+    public void OnMousePosition(InputAction.CallbackContext ctx) {
+        MousePositionEvent?.Invoke(ctx.ReadValue<Vector2>());
     }
     public void OnDash(InputAction.CallbackContext ctx) {
-        DashEvent?.Invoke(ctx.ReadValue<Vector2>());
+        DashEvent?.Invoke(ctx.canceled);
+        DashHoldEvent?.Invoke(ctx.performed);
     }
 
     private void EnableInput() {
@@ -53,4 +60,5 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     private void DisableInput() {
         _inputActions.Default.Disable();
     }
+
 }

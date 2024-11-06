@@ -33,13 +33,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dash",
+                    "name": "Mouse Position",
                     "type": "Value",
                     "id": "6e1c2b16-8fd0-4f35-bcbb-ce73ed1b2789",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "89372089-959c-474c-805d-0849cb07bdab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -102,6 +111,17 @@
                     "name": "",
                     "id": "c03e4309-46a8-4b94-9e86-19bead466602",
                     "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "MouseCenteredInput",
+                    "groups": "",
+                    "action": "Mouse Position",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b55b806-9fdc-4dd7-8cec-e0cb8063a5f7",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
