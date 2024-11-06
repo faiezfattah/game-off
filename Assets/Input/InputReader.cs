@@ -8,7 +8,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
 
     private Input _inputActions;
 
-    public event UnityAction RunEvent;
+    public event UnityAction<bool> RunEvent;
     public event UnityAction<bool> JumpEvent;
     public event UnityAction<bool> DashEvent;
     public event UnityAction<bool> DashHoldEvent;
@@ -37,7 +37,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     }
 
     public void OnRun(InputAction.CallbackContext ctx) {
-        RunEvent?.Invoke();
+        RunEvent?.Invoke(ctx.performed);
     }
     public void OnMove(InputAction.CallbackContext ctx) {        
         MoveEvent?.Invoke(Convert.ToInt32(ctx.ReadValue<float>()));
@@ -49,7 +49,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         MousePositionEvent?.Invoke(ctx.ReadValue<Vector2>());
     }
     public void OnDash(InputAction.CallbackContext ctx) {
-        DashEvent?.Invoke(ctx.canceled);
+        DashEvent?.Invoke(ctx.started);
         DashHoldEvent?.Invoke(ctx.performed);
     }
 

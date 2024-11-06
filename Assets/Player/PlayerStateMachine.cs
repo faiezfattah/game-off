@@ -5,6 +5,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
     [SerializeField] private PlayerController playerController;
 
+    private State prevState;
     private State currentState;
 
     public WalkState walkState;
@@ -12,11 +13,15 @@ public class PlayerStateMachine : MonoBehaviour {
     public JumpState jumpState;
     public FallState fallState;
     public DashState dashState;
+    public RunState runState;
     private void Awake() {
         idleState = new IdleState(this, playerController);
         walkState = new WalkState(this, playerController);
         jumpState = new JumpState(this, playerController);
         fallState = new FallState(this, playerController);
+        runState = new RunState(this, playerController);
+
+        //global state
         dashState = new DashState(this, playerController);
 
         currentState = idleState;
@@ -26,15 +31,23 @@ public class PlayerStateMachine : MonoBehaviour {
     }
     private void Update() {
         currentState?.Update();
+
+        //forcing global transition
+        if (playerController.isDashPressed) {
+            ChangeState(dashState);
+        }
     }
     private void FixedUpdate() {
         currentState?.FixedUpdate();
     }
     public void ChangeState(State newState) {
+        if (currentState == newState) return;
+
         currentState.Exit();
+        prevState = currentState;
 
         currentState = newState;
         currentState.Enter();
-        //Debug.Log(currentState.ToString());
+        Debug.Log(currentState.ToString());
     }
 }

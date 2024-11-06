@@ -4,17 +4,23 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputReader _inputReader;
-    [SerializeField] private LayerMask ground;
+    [SerializeField] private LayerMask _ground;
 
     private float playerHalfHeight = 0.5f;
 
     [Header("Movement Settings")]
     public float walkSpeed = 10f;
     public float runSpeed = 8f;
+    public float dashForce = 100f;
+    public float dashDuration = 1f;
     public float jumpForce = 10f;
-    public float fallSpeed = -100f;
+    public float jumpDuration = 1f;
+    public float jumpBuffer = 0.5f;
+    public float fallForce = -100f;
+    public float fallFastForce = -200f;
+    public float aircControl = 5f;
+    public float coyoteTime = 0.5f;
     public float groundCheckDistance = 0.1f;
-    public float coyoteJumpTime = 0.5f;
 
     [HideInInspector]
     public Rigidbody rb;
@@ -22,11 +28,14 @@ public class PlayerController : MonoBehaviour
     public Vector2 dashDir;
     public bool isRunPressed;
     public bool isJumpPressed;
+    public bool isJumpQueue;
+    public bool isCoyote;
     public bool isDashPressed;
-    public bool isJumping;
     public bool isGrounded;
 
     private Vector3 _linearVelocity;
+    private float _coyoteTimer;
+    private float _jumpBufferTimer;
     void Start(){
         playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
         groundCheckDistance += playerHalfHeight;
@@ -35,7 +44,21 @@ public class PlayerController : MonoBehaviour
 
     }
     void Update() {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, ground);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, _ground);
+
+        if (!isGrounded) {
+            _coyoteTimer += Time.deltaTime;
+            isCoyote = _coyoteTimer < coyoteTime;
+        }
+        else { _coyoteTimer = 0; }
+
+
+        if (isJumpPressed) {
+            _jumpBufferTimer = jumpBuffer;
+        }
+
+        _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - Time.deltaTime, 0);
+        isJumpQueue = _jumpBufferTimer > 0;
     }
     private void OnMove(int value) {
         dir = value;
@@ -49,16 +72,22 @@ public class PlayerController : MonoBehaviour
     private void MousePosition(Vector2 value) {
         dashDir = value;
     }
+    private void OnRun(bool value) {
+        isRunPressed = value;
+    }
     private void OnEnable() {
         _inputReader.MoveEvent += OnMove;
         _inputReader.JumpEvent += OnJump;
         _inputReader.DashEvent += OnDash;
+        _inputReader.RunEvent += OnRun;
         _inputReader.MousePositionEvent += MousePosition;
+
     }
     private void OnDisable() {
         _inputReader.MoveEvent -= OnMove;
         _inputReader.JumpEvent -= OnJump;
         _inputReader.DashEvent -= OnDash;
+        _inputReader.RunEvent -= OnRun;
         _inputReader.MousePositionEvent -= MousePosition;
     }
 

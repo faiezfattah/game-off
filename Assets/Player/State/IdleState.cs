@@ -11,12 +11,11 @@ public class IdleState : State
         if (!playerController.isGrounded) {
             stateMachine.ChangeState(stateMachine.fallState);
         }
-        if (playerController.isJumpPressed && playerController.isGrounded) {
+        if (playerController.isJumpQueue && (playerController.isGrounded || playerController.isCoyote)) {
             stateMachine.ChangeState(stateMachine.jumpState);
         }
-        if (playerController.isDashPressed) {
-            stateMachine.ChangeState(stateMachine.dashState);
+        if (playerController.isRunPressed) {
+            stateMachine.ChangeState(stateMachine.runState);
         }
-
     }
 }

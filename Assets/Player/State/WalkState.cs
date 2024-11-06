@@ -13,6 +13,9 @@ public class WalkState : State {
         if (!playerController.isGrounded) {
             stateMachine.ChangeState(stateMachine.fallState);
         }
+        if (playerController.isRunPressed) {
+            stateMachine.ChangeState(stateMachine.runState);
+        }
     }
     public override void FixedUpdate() {
         playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dir * playerController.walkSpeed, -playerController.walkSpeed, playerController.walkSpeed), 0, 0);

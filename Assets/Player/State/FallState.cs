@@ -5,12 +5,16 @@ public class FallState : State {
     }
     public override void FixedUpdate() {
         playerController.rb.linearVelocity += new Vector3(
-            playerController.dir * playerController.walkSpeed, 0, 0);
+            playerController.dir * playerController.aircControl, 0, 0);
 
-        playerController.rb.AddForce(new Vector3(0, playerController.fallSpeed, 0), ForceMode.Acceleration);
+        if (playerController.isRunPressed) {
+            playerController.rb.AddForce(new Vector3(0, playerController.fallFastForce, 0), ForceMode.Acceleration);
+        }
+        else {
+            playerController.rb.AddForce(new Vector3(0, playerController.fallForce, 0), ForceMode.Acceleration);
+        }
 
-        if (playerController.isGrounded) {
-            playerController.isJumping = false;
+        if (playerController.isGrounded || playerController.rb.linearVelocity.y < 0.1) {
             stateMachine.ChangeState(stateMachine.idleState);
         }
     } 
