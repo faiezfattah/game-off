@@ -4,9 +4,12 @@ public class JumpState : State {
     public JumpState(PlayerStateMachine stateMachine, PlayerController playerController) : base(stateMachine, playerController) {
     }
     private float _duration;
+    public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
-        _duration = 0f;
         playerController.rb.AddForce(new Vector3(0, playerController.jumpForce, 0), ForceMode.Impulse);
+        Debug.Log("jumping");
+        isUninterruptable = true;
+        playerController.isCoyote = false;
     }
     public override void FixedUpdate() {
         _duration += Time.deltaTime;
@@ -20,11 +23,12 @@ public class JumpState : State {
         }
 
         //fall
-        if (_duration >= playerController.jumpDuration || !playerController.isJumpPressed) {
-            stateMachine.ChangeState(stateMachine.fallState);
+        if (_duration >= playerController.jumpDuration) {
+            isUninterruptable = false;
         }
     }
     public override void Exit() {
-        playerController.isJumpQueue = false;
+        _duration = 0f;
+        playerController.rb.linearVelocity -= new Vector3(0, playerController.rb.linearVelocity.y * 0.5f, 0);
     }
 }

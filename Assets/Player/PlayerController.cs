@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private LayerMask _ground;
 
-    private float playerHalfHeight = 0.5f;
 
     [Header("Movement Settings")]
     public float walkSpeed = 10f;
@@ -33,6 +32,7 @@ public class PlayerController : MonoBehaviour
     public bool isDashPressed;
     public bool isGrounded;
 
+    private float playerHalfHeight = 0.5f;
     private Vector3 _linearVelocity;
     private float _coyoteTimer;
     private float _jumpBufferTimer;
@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
         groundCheckDistance += playerHalfHeight;
         rb = GetComponent<Rigidbody>();
         _linearVelocity = rb.linearVelocity;
-
     }
     void Update() {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, _ground);

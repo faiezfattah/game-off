@@ -14,8 +14,5 @@ public class FallState : State {
             playerController.rb.AddForce(new Vector3(0, playerController.fallForce, 0), ForceMode.Acceleration);
         }
 
-        if (playerController.isGrounded || playerController.rb.linearVelocity.y < 0.1) {
-            stateMachine.ChangeState(stateMachine.idleState);
-        }
     } 
 }

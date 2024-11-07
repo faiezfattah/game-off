@@ -1,10 +1,12 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Scripting;
 
 #if UNITY_EDITOR
 [InitializeOnLoad]
 #endif
+[Preserve]
 public class MouseCenteredInputProcessor : InputProcessor<Vector2> { 
     static MouseCenteredInputProcessor() {
         Initialize();
@@ -14,10 +16,10 @@ public class MouseCenteredInputProcessor : InputProcessor<Vector2> {
     static void Initialize() {
         InputSystem.RegisterProcessor<MouseCenteredInputProcessor>();
     }
-
-    Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+    public bool normalize = true;
     public override Vector2 Process(Vector2 value, InputControl control) {
+        Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
         Vector2 mouseVector = value - screenCenter;
-        return mouseVector.normalized;
+        return normalize ? mouseVector.normalized : mouseVector;
     }
 }
