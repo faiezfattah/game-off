@@ -9,8 +9,8 @@ public class PlayerStateMachine : MonoBehaviour {
     [SerializeField] private PlayerController _playerController;
     private Dictionary<Type, Dictionary<Type, Func<bool>>> transitionMatrix;
 
-    private State prevState;
-    private State currentState;
+    private State _prevState;
+    private State _currentState;
 
     public WalkState walkState;
     public IdleState idleState;
@@ -28,30 +28,14 @@ public class PlayerStateMachine : MonoBehaviour {
         runState = new RunState(this, _playerController);
         dashState = new DashState(this, _playerController);
 
-        //AddTransition(typeof(IdleState), typeof(WalkState), () => _playerController.dir != 0);
-        //AddTransition(typeof(WalkState), typeof(IdleState), () => _playerController.dir == 0);
-        //AddTransition(typeof(WalkState), typeof(RunState), () => _playerController.isRunPressed);
-        //AddTransition(typeof(IdleState), typeof(JumpState), () => _playerController.isJumpPressed);
-        //AddTransition(typeof(WalkState), typeof(JumpState), () => _playerController.isJumpPressed);
-        //AddTransition(typeof(IdleState), typeof(DashState), () => _playerController.isDashPressed);
-        //AddTransition(typeof(WalkState), typeof(DashState), () => _playerController.isDashPressed);
-        //AddTransition(typeof(RunState), typeof(JumpState), () => _playerController.isJumpPressed);
-        //AddTransition(typeof(RunState), typeof(DashState), () => _playerController.isDashPressed);
-        //AddTransition(typeof(JumpState), typeof(FallState), () => !_playerController.isGrounded);
-        //AddTransition(typeof(DashState), typeof(FallState), () => !_playerController.isGrounded);
-        //AddTransition(typeof(WalkState), typeof(FallState), () => !_playerController.isGrounded);
-        //AddTransition(typeof(RunState), typeof(FallState), () => !_playerController.isGrounded);
-        //AddTransition(typeof(FallState), typeof(IdleState), () => _playerController.isGrounded);
-        //AddTransition(typeof(FallState), typeof(WalkState), () => _playerController.dir != 0 && _playerController.isGrounded);
+        //to dash
+        AddTransition(typeof(State), typeof(DashState), () => _playerController.isDashQueued);
 
-        // i hate this ngl.
+        //to fall
+        AddTransition(typeof(State), typeof(FallState), () => !_playerController.isGrounded);
 
         //to idle
-        AddTransition(typeof(WalkState), typeof(IdleState), () => _playerController.isGrounded);
-        //AddTransition(typeof(RunState), typeof(IdleState), () => _playerController.isGrounded);
-        //AddTransition(typeof(JumpState), typeof(IdleState), () => _playerController.isGrounded);
-        AddTransition(typeof(DashState), typeof(IdleState), () => _playerController.isGrounded);
-        AddTransition(typeof(FallState), typeof(IdleState), () => _playerController.isGrounded);
+        AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded);
 
         //to walk
         AddTransition(typeof(IdleState), typeof(WalkState), () => _playerController.dir != 0);
@@ -59,85 +43,73 @@ public class PlayerStateMachine : MonoBehaviour {
         //to run
         AddTransition(typeof(WalkState), typeof(RunState), () => _playerController.isRunPressed);
 
-
         //to jump
-        AddTransition(typeof(IdleState), typeof(JumpState), () => _playerController.isJumpQueue && (_playerController.isCoyote || _playerController.isGrounded));
-        AddTransition(typeof(WalkState), typeof(JumpState), () => _playerController.isJumpQueue && (_playerController.isCoyote || _playerController.isGrounded));
-        AddTransition(typeof(RunState), typeof(JumpState), () => _playerController.isJumpQueue && (_playerController.isCoyote || _playerController.isGrounded));
-        AddTransition(typeof(FallState), typeof(JumpState), () => _playerController.isJumpQueue && (_playerController.isCoyote || _playerController.isGrounded));
+        AddTransition(typeof(IdleState), typeof(JumpState), () => _playerController.isJumpQueued);
+        AddTransition(typeof(WalkState), typeof(JumpState), () => _playerController.isJumpQueued);
+        AddTransition(typeof(RunState), typeof(JumpState), () => _playerController.isJumpQueued);
+        AddTransition(typeof(FallState), typeof(JumpState), () => _playerController.isJumpQueued);
 
-
-        //to dash
-        AddTransition(typeof(IdleState), typeof(DashState), () => _playerController.isDashPressed);
-        AddTransition(typeof(WalkState), typeof(DashState), () => _playerController.isDashPressed);
-        AddTransition(typeof(RunState), typeof(DashState), () => _playerController.isDashPressed);
-        AddTransition(typeof(JumpState), typeof(DashState), () => _playerController.isDashPressed);
-        AddTransition(typeof(FallState), typeof(DashState), () => _playerController.isDashPressed);
-
-        //to fall
-        AddTransition(typeof(IdleState), typeof(FallState), () => !_playerController.isGrounded);
-        AddTransition(typeof(WalkState), typeof(FallState), () => !_playerController.isGrounded);
-        AddTransition(typeof(RunState), typeof(FallState), () => !_playerController.isGrounded);
-        AddTransition(typeof(JumpState), typeof(FallState), () => !_playerController.isGrounded);
-        AddTransition(typeof(DashState), typeof(FallState), () => !_playerController.isGrounded);
-
-
-        currentState = idleState;
+        _currentState = idleState;
     }
     private void Start() {
-        currentState?.Enter();
+        _currentState?.Enter();
     }
-
     private void Update() {
-        currentState?.Update();
+        _currentState?.Update();
+        // this has priority, top first. bottom last.
+        // i hate it but idk what else to do
 
-        if (CanTransitionTo(typeof(WalkState))) {
-            ChangeState(walkState);
-        }
-        else if (CanTransitionTo(typeof(FallState))) {
-            ChangeState(fallState);
+
+        if (CanTransitionTo(typeof(DashState))) {
+            ChangeState(dashState);
         }
         else if (CanTransitionTo(typeof(JumpState))) {
             ChangeState(jumpState);
         }
+        else if (CanTransitionTo(typeof(FallState))) {
+            ChangeState(fallState);
+        }
         else if (CanTransitionTo(typeof(RunState))) {
             ChangeState(runState);
+        }
+        else if (CanTransitionTo(typeof(WalkState))) {
+            ChangeState(walkState);
         }
         else if (CanTransitionTo(typeof(IdleState))) {
             ChangeState(idleState);
         }
-        else if (CanTransitionTo(typeof(DashState))) {
-            ChangeState(dashState);
-        }
-
     }
-
     private void FixedUpdate() {
-        currentState?.FixedUpdate();
+        _currentState?.FixedUpdate();
     }
-
     public void ChangeState(State newState) {
-        if (currentState == newState) return;
+        if (_currentState == newState) return;
 
-        currentState.Exit();
-        prevState = currentState;
+        _currentState.Exit();
+        _prevState = _currentState;
 
-        currentState = newState;
-        currentState.Enter();
-        Debug.Log(currentState.ToString() + ", previously " + prevState.ToString());
+        _currentState = newState;
+        _currentState.Enter();
+        Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
+        _playerController.currentState = _currentState.ToString();
     }
-
     public bool CanTransitionTo(Type to) {
-        if (transitionMatrix.TryGetValue(currentState.GetType(), out var transitions)) {
+        if (transitionMatrix.TryGetValue(_currentState.GetType(), out var transitions)) {
             foreach (var (targetState, condition) in transitions) {
-                if (targetState == to && condition() && !currentState.isUninterruptable) {
+                if (targetState == to && condition() && !_currentState.isUninterruptable) {
+                    return true;
+                }
+            }
+        }
+        if (transitionMatrix.TryGetValue(typeof(State), out transitions)) {
+            foreach (var (targetState, condition) in transitions) {
+                if (targetState == to && condition() && !_currentState.isUninterruptable) {
                     return true;
                 }
             }
         }
         return false;
     }
-
     private void AddTransition(Type from, Type to, Func<bool> condition) {
         if (!transitionMatrix.TryGetValue(from, out var transitions)) {
             transitions = new Dictionary<Type, Func<bool>>();

@@ -10,8 +10,8 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
 
     public event UnityAction<bool> RunEvent;
     public event UnityAction<bool> JumpEvent;
-    public event UnityAction<bool> DashEvent;
-    public event UnityAction<bool> DashHoldEvent;
+    public event UnityAction<bool> DashStartEvent;
+    public event UnityAction<bool> DashAimEvent;
 
     /// <summary>
     /// return mouse directional int
@@ -19,7 +19,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public event UnityAction<int> MoveEvent;
 
     /// <summary>
-    /// return mouse location vector2
+    /// return mouse location vector2. Screen space
     /// </summary>
     public event UnityAction<Vector2> MousePositionEvent;
 
@@ -49,8 +49,8 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         MousePositionEvent?.Invoke(ctx.ReadValue<Vector2>());
     }
     public void OnDash(InputAction.CallbackContext ctx) {
-        DashEvent?.Invoke(ctx.started);
-        DashHoldEvent?.Invoke(ctx.performed);
+        DashStartEvent?.Invoke(ctx.performed);
+        DashAimEvent?.Invoke(ctx.canceled);
     }
 
     private void EnableInput() {

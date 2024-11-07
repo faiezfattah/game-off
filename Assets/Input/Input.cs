@@ -69,7 +69,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""id"": ""89372089-959c-474c-805d-0849cb07bdab"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 }
             ],
@@ -134,7 +134,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""id"": ""c03e4309-46a8-4b94-9e86-19bead466602"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
-                    ""processors"": ""MouseCenteredInput"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Mouse Position"",
                     ""isComposite"": false,

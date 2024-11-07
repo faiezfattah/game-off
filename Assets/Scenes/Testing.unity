@@ -982,8 +982,9 @@ GameObject:
   - component: {fileID: 1905815854}
   - component: {fileID: 1905815853}
   - component: {fileID: 1905815859}
+  - component: {fileID: 1905815860}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1005,26 +1006,33 @@ MonoBehaviour:
   _ground:
     serializedVersion: 2
     m_Bits: 8
+  visual: {fileID: 1905815860}
+  rb: {fileID: 1905815854}
   walkSpeed: 1
-  runSpeed: 2
+  runSpeed: 2.5
   dashForce: 500
   dashDuration: 0.25
+  dashCooldown: 3
   jumpForce: 50
-  jumpDuration: 0.3
+  jumpDuration: 0.5
   jumpBuffer: 0.1
   fallForce: -100
-  fallFastForce: -300
+  fallFastForce: -200
   aircControl: 2
   coyoteTime: 0.3
   groundCheckDistance: 0.1
-  rb: {fileID: 0}
+  currentState: 
   dir: 0
-  dashDir: {x: 0, y: 0}
+  mousePos: {x: 0, y: 0}
+  aimDir: {x: 0, y: 0}
   isRunPressed: 0
   isJumpPressed: 0
-  isJumpQueue: 0
+  isJumpQueued: 0
   isCoyote: 0
   isDashPressed: 0
+  isDashAim: 0
+  isDashQueued: 0
+  isDashCoolingDown: 0
   isGrounded: 0
 --- !u!54 &1905815854
 Rigidbody:
@@ -1052,7 +1060,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 120
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!136 &1905815855
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1157,6 +1165,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerController: {fileID: 1905815853}
+--- !u!114 &1905815860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905815851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7bbbf5db9c31c0459da3659edabe05b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

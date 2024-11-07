@@ -9,7 +9,6 @@ public class JumpState : State {
         playerController.rb.AddForce(new Vector3(0, playerController.jumpForce, 0), ForceMode.Impulse);
         Debug.Log("jumping");
         isUninterruptable = true;
-        playerController.isCoyote = false;
     }
     public override void FixedUpdate() {
         _duration += Time.deltaTime;
@@ -23,7 +22,7 @@ public class JumpState : State {
         }
 
         //fall
-        if (_duration >= playerController.jumpDuration) {
+        if (_duration >= playerController.jumpDuration || !playerController.isJumpPressed) {
             isUninterruptable = false;
         }
     }
