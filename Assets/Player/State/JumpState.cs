@@ -22,12 +22,12 @@ public class JumpState : State {
         }
 
         //fall
-        if (_duration >= playerController.jumpDuration || !playerController.isJumpPressed) {
+        if (_duration >= playerController.jumpDuration || !playerController.isJumpPressed || playerController.isDashPressed) {
             isUninterruptable = false;
         }
     }
     public override void Exit() {
         _duration = 0f;
-        playerController.rb.linearVelocity -= new Vector3(0, playerController.rb.linearVelocity.y * 0.5f, 0);
+        playerController.rb.linearVelocity -= new Vector3(0, 0, 0);
     }
 }

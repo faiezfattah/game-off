@@ -48,7 +48,9 @@ public class PlayerController : MonoBehaviour
     void Start(){
         playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
         groundCheckDistance += playerHalfHeight;
-        rb = GetComponent<Rigidbody>();
+        if (!rb) rb = GetComponent<Rigidbody>();
+        if (!visual) visual = GetComponent<PlayerVisualizer>();
+        if (_ground == 0) _ground = LayerMask.GetMask("Ground");
         _linearVelocity = rb.linearVelocity;
     }
     void Update() {
@@ -62,12 +64,16 @@ public class PlayerController : MonoBehaviour
         if (isJumpPressed) {
             _jumpBufferTimer = jumpBuffer;
         }
-
+        if (!isGrounded && isJumpQueued) {
+            _coyoteTimer = 0;
+        }
         _coyoteTimer = Mathf.Max(_coyoteTimer - Time.deltaTime, 0);
         _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - Time.deltaTime, 0);
 
         isCoyote = _coyoteTimer > 0;
         isJumpQueued = _jumpBufferTimer > 0 && (isCoyote || isGrounded);
+
+
         #endregion
 
         #region dash check

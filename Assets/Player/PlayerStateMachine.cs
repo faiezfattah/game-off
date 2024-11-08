@@ -35,10 +35,10 @@ public class PlayerStateMachine : MonoBehaviour {
         AddTransition(typeof(State), typeof(FallState), () => !_playerController.isGrounded);
 
         //to idle
-        AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded);
+        AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded && _playerController.dir == 0);
 
         //to walk
-        AddTransition(typeof(IdleState), typeof(WalkState), () => _playerController.dir != 0);
+        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dir != 0);
 
         //to run
         AddTransition(typeof(WalkState), typeof(RunState), () => _playerController.isRunPressed);
