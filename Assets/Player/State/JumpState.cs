@@ -7,7 +7,7 @@ public class JumpState : State {
     public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
         playerController.rb.AddForce(new Vector3(0, playerController.jumpForce, 0), ForceMode.Impulse);
-        Debug.Log("jumping");
+        //Debug.Log("jumping");
         isUninterruptable = true;
     }
     public override void FixedUpdate() {

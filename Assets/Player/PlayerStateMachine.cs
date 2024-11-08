@@ -38,10 +38,10 @@ public class PlayerStateMachine : MonoBehaviour {
         AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded && _playerController.dir == 0);
 
         //to walk
-        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dir != 0);
+        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dir != 0 && !_playerController.isRunPressed);
 
         //to run
-        AddTransition(typeof(WalkState), typeof(RunState), () => _playerController.isRunPressed);
+        AddTransition(typeof(State), typeof(RunState), () => _playerController.isRunPressed);
 
         //to jump
         AddTransition(typeof(IdleState), typeof(JumpState), () => _playerController.isJumpQueued);
@@ -90,7 +90,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
         _currentState = newState;
         _currentState.Enter();
-        Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
+        //Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
         _playerController.currentState = _currentState.ToString();
     }
     public bool CanTransitionTo(Type to) {
