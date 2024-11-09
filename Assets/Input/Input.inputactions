@@ -6,6 +6,15 @@
             "id": "0c043fd1-dcf2-44fd-aa2c-49a7648faa79",
             "actions": [
                 {
+                    "name": "Slide",
+                    "type": "Value",
+                    "id": "59c26510-bfee-485c-84e9-49c801505a52",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Move",
                     "type": "Value",
                     "id": "857eadfd-6c99-4590-b7a6-199ce1ddfd26",
@@ -45,6 +54,15 @@
                     "name": "Dash",
                     "type": "Button",
                     "id": "89372089-959c-474c-805d-0849cb07bdab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Wall Grab",
+                    "type": "Button",
+                    "id": "6c1f24ea-a01b-4ff0-a19f-b7766374d2c5",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -128,6 +146,50 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "303d3f2a-3a63-4528-97f4-473c6e5ecfcb",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Wall Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "fa832bb1-3032-445b-b72e-a1749ccbdc83",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "66924412-2110-47d5-b497-90da33e37d68",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "65c0b5a3-b94c-4cec-84f9-b9b253fe7dbe",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }

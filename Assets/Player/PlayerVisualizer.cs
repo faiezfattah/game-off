@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerVisualizer : MonoBehaviour
 {
+    public float radius;
+    public GameObject pointer;
     private Vector3 _to;
     private Vector3 _aimFrom;
     private Vector3 _aimTo;
@@ -15,5 +17,6 @@ public class PlayerVisualizer : MonoBehaviour
         if (_to != Vector3.zero) {
             Gizmos.DrawLine(gameObject.transform.position, _to);
         }
+        Gizmos.DrawWireSphere(pointer.transform.position, radius);
     }
 }

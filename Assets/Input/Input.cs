@@ -28,6 +28,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
             ""id"": ""0c043fd1-dcf2-44fd-aa2c-49a7648faa79"",
             ""actions"": [
                 {
+                    ""name"": ""Slide"",
+                    ""type"": ""Value"",
+                    ""id"": ""59c26510-bfee-485c-84e9-49c801505a52"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
                     ""id"": ""857eadfd-6c99-4590-b7a6-199ce1ddfd26"",
@@ -67,6 +76,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""89372089-959c-474c-805d-0849cb07bdab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Wall Grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c1f24ea-a01b-4ff0-a19f-b7766374d2c5"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -150,6 +168,50 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""303d3f2a-3a63-4528-97f4-473c6e5ecfcb"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wall Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""fa832bb1-3032-445b-b72e-a1749ccbdc83"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""66924412-2110-47d5-b497-90da33e37d68"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""65c0b5a3-b94c-4cec-84f9-b9b253fe7dbe"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -158,11 +220,13 @@ public partial class @Input: IInputActionCollection2, IDisposable
 }");
         // Default
         m_Default = asset.FindActionMap("Default", throwIfNotFound: true);
+        m_Default_Slide = m_Default.FindAction("Slide", throwIfNotFound: true);
         m_Default_Move = m_Default.FindAction("Move", throwIfNotFound: true);
         m_Default_Jump = m_Default.FindAction("Jump", throwIfNotFound: true);
         m_Default_Run = m_Default.FindAction("Run", throwIfNotFound: true);
         m_Default_MousePosition = m_Default.FindAction("Mouse Position", throwIfNotFound: true);
         m_Default_Dash = m_Default.FindAction("Dash", throwIfNotFound: true);
+        m_Default_WallGrab = m_Default.FindAction("Wall Grab", throwIfNotFound: true);
     }
 
     ~@Input()
@@ -229,20 +293,24 @@ public partial class @Input: IInputActionCollection2, IDisposable
     // Default
     private readonly InputActionMap m_Default;
     private List<IDefaultActions> m_DefaultActionsCallbackInterfaces = new List<IDefaultActions>();
+    private readonly InputAction m_Default_Slide;
     private readonly InputAction m_Default_Move;
     private readonly InputAction m_Default_Jump;
     private readonly InputAction m_Default_Run;
     private readonly InputAction m_Default_MousePosition;
     private readonly InputAction m_Default_Dash;
+    private readonly InputAction m_Default_WallGrab;
     public struct DefaultActions
     {
         private @Input m_Wrapper;
         public DefaultActions(@Input wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Slide => m_Wrapper.m_Default_Slide;
         public InputAction @Move => m_Wrapper.m_Default_Move;
         public InputAction @Jump => m_Wrapper.m_Default_Jump;
         public InputAction @Run => m_Wrapper.m_Default_Run;
         public InputAction @MousePosition => m_Wrapper.m_Default_MousePosition;
         public InputAction @Dash => m_Wrapper.m_Default_Dash;
+        public InputAction @WallGrab => m_Wrapper.m_Default_WallGrab;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -252,6 +320,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_DefaultActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_DefaultActionsCallbackInterfaces.Add(instance);
+            @Slide.started += instance.OnSlide;
+            @Slide.performed += instance.OnSlide;
+            @Slide.canceled += instance.OnSlide;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -267,10 +338,16 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @WallGrab.started += instance.OnWallGrab;
+            @WallGrab.performed += instance.OnWallGrab;
+            @WallGrab.canceled += instance.OnWallGrab;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
         {
+            @Slide.started -= instance.OnSlide;
+            @Slide.performed -= instance.OnSlide;
+            @Slide.canceled -= instance.OnSlide;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -286,6 +363,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @WallGrab.started -= instance.OnWallGrab;
+            @WallGrab.performed -= instance.OnWallGrab;
+            @WallGrab.canceled -= instance.OnWallGrab;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -305,10 +385,12 @@ public partial class @Input: IInputActionCollection2, IDisposable
     public DefaultActions @Default => new DefaultActions(this);
     public interface IDefaultActions
     {
+        void OnSlide(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnWallGrab(InputAction.CallbackContext context);
     }
 }

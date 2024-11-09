@@ -1,5 +1,68 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1836949848496758266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 706350335474174800}
+  m_Layer: 0
+  m_Name: Rotating Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &706350335474174800
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836949848496758266}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 416041370447423631}
+  m_Father: {fileID: 2137729358499124806}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2935692173842452506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 416041370447423631}
+  m_Layer: 0
+  m_Name: Wall Check
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &416041370447423631
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2935692173842452506}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.47999996, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 706350335474174800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6965780641305509804
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,7 +98,8 @@ Transform:
   m_LocalPosition: {x: 6.377699, y: 1.6946523, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 706350335474174800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4951579029140794881
@@ -154,6 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: 77d1ac31fe6916f4f9960a4f733e8713, type: 2}
+  _rotatingContainer: {fileID: 1836949848496758266}
+  _wallCheck: {fileID: 2935692173842452506}
   _ground:
     serializedVersion: 2
     m_Bits: 8
@@ -162,22 +228,25 @@ MonoBehaviour:
   walkSpeed: 1
   runSpeed: 2.5
   dashForce: 500
-  dashDuration: 0.25
+  dashDuration: 0.3
   dashCooldown: 3
+  dashVelocityRetention: 0.75
   jumpForce: 50
   jumpDuration: 0.5
   jumpBuffer: 0.1
-  fallForce: -100
-  fallFastForce: -200
+  fallForce: -150
+  fallSlowForce: -50
   aircControl: 2
   coyoteTime: 0.3
   groundCheckDistance: 1.1
+  wallCheckRadius: 0.5
   currentState: IdleState
-  dir: 0
+  dirHorizontal: 0
+  dirVertical: 0
   mousePos: {x: 0, y: 0}
-  aimDir: {x: 0.25539112, y: 0.9668378}
   isRunPressed: 0
   isJumpPressed: 0
+  haveJump: 0
   isJumpQueued: 0
   isCoyote: 1
   isDashPressed: 0
@@ -185,6 +254,9 @@ MonoBehaviour:
   isDashQueued: 0
   isDashCoolingDown: 0
   isGrounded: 1
+  isWalled: 0
+  isWallGrabbedPressed: 0
+  isWallGrabQueued: 0
 --- !u!114 &6333893775765803471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,3 +282,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7bbbf5db9c31c0459da3659edabe05b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  radius: 0
+  pointer: {fileID: 2935692173842452506}

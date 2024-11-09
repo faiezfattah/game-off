@@ -22,7 +22,6 @@ public class DashState : State {
         if (!playerController.isDashPressed) return;
         dir = playerController.mousePos - _centerPos;
         dir = dir.normalized;
-        playerController.aimDir = dir;
         playerController.visual.DrawDashingLine(dir * 100);
     }
     public override void FixedUpdate() {
@@ -33,13 +32,18 @@ public class DashState : State {
         Vector3 dash = new Vector3(dir.x * playerController.dashForce, dir.y * playerController.dashForce, 0);
         playerController.rb.AddForce(dash, ForceMode.Force);
 
-        if (_duration > playerController.dashDuration || playerController.isJumpPressed) {
+        if (_duration > playerController.dashDuration) {
+            isUninterruptable = false;
+        }
+        else if (playerController.isJumpQueued) {
             isUninterruptable = false;
         }
     }
-    public override void Exit() { 
+    public override void Exit() {
         //playerController.rb.useGravity = true;
-        playerController.rb.linearVelocity = new Vector3(0, playerController.rb.linearVelocity.y * 0.5f, 0);
         playerController.visual.DisableDashingLine();
+        if (playerController.isJumpQueued) return;
+        playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.dashVelocityRetention;
+        //new Vector3(playerController.rb.linearVelocity.x * playerController.dashVelocityRetention, playerController.rb.linearVelocity.y * playerController.dashVelocityRetention, 0);
     }
 }

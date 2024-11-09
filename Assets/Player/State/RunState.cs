@@ -5,6 +5,6 @@ public class RunState : State {
     }
 
     public override void FixedUpdate() {
-        playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dir * playerController.runSpeed, -playerController.runSpeed, playerController.runSpeed), 0, 0);
+        playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.runSpeed, -playerController.runSpeed, playerController.runSpeed), 0, 0);
     }
 }

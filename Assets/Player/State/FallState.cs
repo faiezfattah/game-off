@@ -5,10 +5,10 @@ public class FallState : State {
     }
     public override void FixedUpdate() {
         playerController.rb.linearVelocity += new Vector3(
-            playerController.dir * playerController.aircControl, 0, 0);
+            playerController.dirHorizontal * playerController.aircControl, 0, 0);
 
-        if (playerController.isRunPressed) {
-            playerController.rb.AddForce(new Vector3(0, playerController.fallFastForce, 0), ForceMode.Acceleration);
+        if (playerController.isJumpPressed) {
+            playerController.rb.AddForce(new Vector3(0, playerController.fallSlowForce, 0), ForceMode.Acceleration);
         }
         else {
             playerController.rb.AddForce(new Vector3(0, playerController.fallForce, 0), ForceMode.Acceleration);

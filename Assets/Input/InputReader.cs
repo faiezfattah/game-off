@@ -9,6 +9,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     private Input _inputActions;
 
     public event UnityAction<bool> RunEvent;
+    public event UnityAction<bool> WallGrabEvent;
     public event UnityAction<bool> JumpEvent;
     public event UnityAction<bool> DashStartEvent;
     public event UnityAction<bool> DashAimEvent;
@@ -17,6 +18,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     /// return mouse directional int
     /// </summary>
     public event UnityAction<int> MoveEvent;
+    public event UnityAction<int> SlideEvent;
 
     /// <summary>
     /// return mouse location vector2. Screen space
@@ -52,7 +54,12 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         DashStartEvent?.Invoke(ctx.performed);
         DashAimEvent?.Invoke(ctx.canceled);
     }
-
+    public void OnWallGrab(InputAction.CallbackContext ctx) {
+        WallGrabEvent?.Invoke(ctx.performed);
+    }
+    public void OnSlide(InputAction.CallbackContext ctx) {
+        SlideEvent?.Invoke(Convert.ToInt32(ctx.ReadValue<float>()));
+    }
     private void EnableInput() {
         _inputActions.Default.Enable();
     }
@@ -60,5 +67,4 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     private void DisableInput() {
         _inputActions.Default.Disable();
     }
-
 }

@@ -18,6 +18,8 @@ public class PlayerStateMachine : MonoBehaviour {
     public FallState fallState;
     public DashState dashState;
     public RunState runState;
+    public WallGrabState wallGrabState;
+    public WallSlideState wallSlideState;
     private void Awake() {
         transitionMatrix = new Dictionary<Type, Dictionary<Type, Func<bool>>>();
 
@@ -27,6 +29,8 @@ public class PlayerStateMachine : MonoBehaviour {
         fallState = new FallState(this, _playerController);
         runState = new RunState(this, _playerController);
         dashState = new DashState(this, _playerController);
+        wallGrabState = new WallGrabState(this, _playerController);
+        wallSlideState = new WallSlideState(this, _playerController);
 
         //to dash
         AddTransition(typeof(State), typeof(DashState), () => _playerController.isDashQueued);
@@ -35,10 +39,10 @@ public class PlayerStateMachine : MonoBehaviour {
         AddTransition(typeof(State), typeof(FallState), () => !_playerController.isGrounded);
 
         //to idle
-        AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded && _playerController.dir == 0);
+        AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded && _playerController.dirHorizontal == 0);
 
         //to walk
-        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dir != 0 && !_playerController.isRunPressed);
+        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dirHorizontal != 0 && !_playerController.isRunPressed);
 
         //to run
         AddTransition(typeof(State), typeof(RunState), () => _playerController.isRunPressed);
@@ -48,6 +52,12 @@ public class PlayerStateMachine : MonoBehaviour {
         AddTransition(typeof(WalkState), typeof(JumpState), () => _playerController.isJumpQueued);
         AddTransition(typeof(RunState), typeof(JumpState), () => _playerController.isJumpQueued);
         AddTransition(typeof(FallState), typeof(JumpState), () => _playerController.isJumpQueued);
+        AddTransition(typeof(WallGrabState), typeof(JumpState), () => _playerController.isJumpQueued);
+        AddTransition(typeof(WallSlideState), typeof(JumpState), () => _playerController.isJumpQueued);
+
+        // to wall grab family
+        AddTransition(typeof(State), typeof(WallGrabState), () => _playerController.isWallGrabQueued);
+        AddTransition(typeof(State), typeof(WallSlideState), () => _playerController.isWallGrabQueued && _playerController.dirVertical !=0);
 
         _currentState = idleState;
     }
@@ -65,6 +75,12 @@ public class PlayerStateMachine : MonoBehaviour {
         }
         else if (CanTransitionTo(typeof(JumpState))) {
             ChangeState(jumpState);
+        }
+        else if (CanTransitionTo(typeof(WallSlideState))) {
+            ChangeState(wallSlideState);
+        }
+        else if (CanTransitionTo(typeof(WallGrabState))) {
+            ChangeState(wallGrabState);
         }
         else if (CanTransitionTo(typeof(FallState))) {
             ChangeState(fallState);
