@@ -151,6 +151,20 @@ MonoBehaviour:
   wallGrabRateCost: 5
   wallSlideRateCost: 10
   airControlRateCost: 10
+--- !u!114 &37889061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37889044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1332428df0f37e246a9a3223df9eba2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  frenzyCost: 1
 --- !u!1 &97753669
 GameObject:
   m_ObjectHideFlags: 0
@@ -864,6 +878,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
+      propertyPath: health
+      value: 
+      objectReference: {fileID: 37889061}
+    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
       propertyPath: stamina
       value: 
       objectReference: {fileID: 37889053}
@@ -882,6 +900,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6965780641305509804, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
       insertIndex: -1
       addedObject: {fileID: 37889053}
+    - targetCorrespondingSourceObject: {fileID: 6965780641305509804, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 37889061}
   m_SourcePrefab: {fileID: 100100000, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
 --- !u!1 &1045555968
 GameObject:

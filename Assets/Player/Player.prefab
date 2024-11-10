@@ -79,6 +79,8 @@ GameObject:
   - component: {fileID: 2486585737090102553}
   - component: {fileID: 6333893775765803471}
   - component: {fileID: 1630808534626767432}
+  - component: {fileID: 8554417257046428308}
+  - component: {fileID: 9002942795754006565}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -225,11 +227,13 @@ MonoBehaviour:
     m_Bits: 8
   visual: {fileID: 1630808534626767432}
   rb: {fileID: 1777988520142432766}
+  stamina: {fileID: 8554417257046428308}
+  health: {fileID: 9002942795754006565}
   walkSpeed: 1
   runSpeed: 2.5
   dashForce: 500
   dashDuration: 0.3
-  dashCooldown: 3
+  dashCooldown: 1
   dashVelocityRetention: 0.75
   jumpForce: 50
   jumpDuration: 0.5
@@ -257,6 +261,7 @@ MonoBehaviour:
   isWalled: 0
   isWallGrabbedPressed: 0
   isWallGrabQueued: 0
+  isFrenzy: 0
 --- !u!114 &6333893775765803471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,3 +289,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0
   pointer: {fileID: 2935692173842452506}
+--- !u!114 &8554417257046428308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965780641305509804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d396b097314a3a44b8e6a2aba9bcc779, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxStamina: 100
+  regenRate: 20
+  regenStopTime: 1
+  currentStamina: 0
+  runRateCost: 10
+  dashCost: 40
+  jumpCost: 20
+  wallGrabRateCost: 5
+  wallSlideRateCost: 10
+  airControlRateCost: 10
+--- !u!114 &9002942795754006565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965780641305509804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1332428df0f37e246a9a3223df9eba2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  frenzyCost: 1
