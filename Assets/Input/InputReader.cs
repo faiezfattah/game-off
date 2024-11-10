@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[CreateAssetMenu(fileName = "InputReader", menuName = "InputReader")]
+[CreateAssetMenu(fileName = "InputReader", menuName = "Player/InputReader")]
 public class InputReader : ScriptableObject, Input.IDefaultActions {
 
     private Input _inputActions;

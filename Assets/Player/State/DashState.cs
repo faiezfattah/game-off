@@ -29,10 +29,10 @@ public class DashState : State {
 
         _duration += Time.deltaTime;
 
-        Vector3 dash = new Vector3(dir.x * playerController.dashForce, dir.y * playerController.dashForce, 0);
+        Vector3 dash = new Vector3(dir.x * playerController.settings.dashForce, dir.y * playerController.settings.dashForce, 0);
         playerController.rb.AddForce(dash, ForceMode.Force);
 
-        if (_duration > playerController.dashDuration) {
+        if (_duration > playerController.settings.dashDuration) {
             isUninterruptable = false;
         }
         else if (playerController.isJumpQueued) {
@@ -43,7 +43,7 @@ public class DashState : State {
         //playerController.rb.useGravity = true;
         playerController.visual.DisableDashingLine();
         if (playerController.isJumpQueued) return;
-        playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.dashVelocityRetention;
+        playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.settings.dashVelocityRetention;
         //new Vector3(playerController.rb.linearVelocity.x * playerController.dashVelocityRetention, playerController.rb.linearVelocity.y * playerController.dashVelocityRetention, 0);
     }
 }

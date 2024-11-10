@@ -9,7 +9,7 @@ public class WallSlideState : State {
         playerController.rb.useGravity = false;
     }
     public override void Update() {
-        float dir = Mathf.Clamp(playerController.walkSpeed * playerController.dirVertical, -playerController.walkSpeed, playerController.walkSpeed);
+        float dir = Mathf.Clamp(playerController.settings.walkSpeed * playerController.dirVertical, -playerController.settings.walkSpeed, playerController.settings.walkSpeed);
         //playerController.rb.linearVelocity += new Vector3(0, dir, 0);
         playerController.rb.AddForce(new Vector3(0, dir, 0), ForceMode.VelocityChange);
 

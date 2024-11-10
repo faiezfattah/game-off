@@ -42,10 +42,10 @@ public class PlayerStateMachine : MonoBehaviour {
         AddTransition(typeof(State), typeof(IdleState), () => _playerController.isGrounded && _playerController.dirHorizontal == 0);
 
         //to walk
-        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dirHorizontal != 0 && !_playerController.isRunPressed);
+        AddTransition(typeof(State), typeof(WalkState), () => _playerController.isGrounded && _playerController.dirHorizontal != 0 && !_playerController.isRunQueued);
 
         //to run
-        AddTransition(typeof(State), typeof(RunState), () => _playerController.isRunPressed);
+        AddTransition(typeof(State), typeof(RunState), () => _playerController.isRunQueued);
 
         //to jump
         AddTransition(typeof(IdleState), typeof(JumpState), () => _playerController.isJumpQueued);
