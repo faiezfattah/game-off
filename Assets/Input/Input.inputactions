@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Frenzy",
+                    "type": "Button",
+                    "id": "1e9e071c-ebbd-4201-8dc1-f687d1dbc16c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -190,6 +199,17 @@
                     "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "0e0425d2-67b0-4167-841d-4529d8ffce90",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Frenzy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

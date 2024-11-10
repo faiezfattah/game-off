@@ -1,8 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Private Reference")]
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GameObject _rotatingContainer;
     [SerializeField] private GameObject _wallCheck;
@@ -11,42 +13,67 @@ public class PlayerController : MonoBehaviour
     [Header("Public Reference")]
     public PlayerVisualizer visual;
     public Rigidbody rb;
+    public PlayerStamina stamina;
+    public PlayerHealth health;
 
     [Header("Movement Settings")]
-    public float walkSpeed = 10f;
-    public float runSpeed = 8f;
+    public float walkSpeed = 1f;
+    public float runSpeed = 3f;
+
+    [Space(10)]
     public float dashForce = 100f;
     public float dashDuration = 1f;
     public float dashCooldown = 1f;
     public float dashVelocityRetention = 0.75f;
+
+    [Space(10)]
     public float jumpForce = 10f;
     public float jumpDuration = 1f;
     public float jumpBuffer = 0.5f;
+
+    [Space(10)]
     public float fallForce = -100f;
     public float fallSlowForce = -50f;
     public float aircControl = 5f;
+
+    [Space(10)]
     public float coyoteTime = 0.5f;
     public float groundCheckDistance = 0.1f;
     public float wallCheckRadius = 1f;
-    public string currentState;
 
+    [Space(10)]
+    public string currentState;
+    
     [Header("Inputs and derived states")]
     public float dirHorizontal;
     public float dirVertical;
     public Vector2 mousePos;
+
+    [Space(10)]
     public bool isRunPressed;
+
+    [Space(10)]
     public bool isJumpPressed;
     public bool haveJump;
     public bool isJumpQueued;
     public bool isCoyote;
+
+    [Space(10)]
     public bool isDashPressed;
     public bool isDashAim;
     public bool isDashQueued;
     public bool isDashCoolingDown;
+
+    [Space(10)]
     public bool isGrounded;
+
+    [Space(10)]
     public bool isWalled;
     public bool isWallGrabbedPressed;
     public bool isWallGrabQueued;
+
+    [Space(10)]
+    public bool isFrenzy;
 
     private float playerHalfHeight = 0.5f;
     private Vector3 _linearVelocity;
@@ -63,49 +90,52 @@ public class PlayerController : MonoBehaviour
     }
     void Update() {
         if (dirHorizontal != 0) {
-            _rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3 (0,dirHorizontal > 0? 0 : 180f,0));
+            _rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3 (0, dirHorizontal > 0? 0 : 180f,0));
         } 
 
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, _ground);
+        //isGrounded = Physics.Raycast(transform.position, Vector3.down, groundCheckDistance, _ground);
+        isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, wallCheckRadius, _ground);
         visual.radius = wallCheckRadius;
-        isWalled = Physics.OverlapSphere(_wallCheck.transform.position, wallCheckRadius, _ground).Length > 0;
+        isWalled = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _ground);
 
         #region wall grab check
-        isWallGrabQueued = isWalled && (isWallGrabbedPressed/* || dirHorizontal != 0*/);
+        isWallGrabQueued = isWalled && (isWallGrabbedPressed/* || dirHorizontal != 0*/) && stamina.TryReduce(stamina.wallGrabRateCost*Time.deltaTime);
         #endregion
 
         #region jump check
-        if (isGrounded || isWallGrabQueued) {
+        if (isGrounded || isWallGrabQueued || isFrenzy) {
             _coyoteTimer = coyoteTime;
             haveJump = true;
         }
+        else if (isJumpQueued) {
+            _coyoteTimer = 0; 
+        }
 
-        if (isJumpPressed) {
-            _jumpBufferTimer = jumpBuffer;
-        }
-        if (!isGrounded && isJumpQueued) {
-            _coyoteTimer = 0;
-        }
         _coyoteTimer = Mathf.Max(_coyoteTimer - Time.deltaTime, 0);
         _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - Time.deltaTime, 0);
 
         isCoyote = _coyoteTimer > 0;
-        isJumpQueued = _jumpBufferTimer > 0 && (haveJump || isCoyote);
-        if (isJumpQueued) haveJump = false;
+        isJumpQueued = _jumpBufferTimer > 0 && (haveJump || isCoyote) && (isFrenzy || stamina.TryReduce(stamina.jumpCost));
 
-
+        if (isJumpQueued) { 
+            haveJump = false;
+            isFrenzy = false;
+        };
         #endregion
 
-
-
         #region dash check
-        isDashQueued = _dashTimer <= 0 && isDashPressed;
+        isDashQueued = _dashTimer <= 0 && isDashPressed && (isFrenzy || stamina.TryReduce(stamina.dashCost));
 
         if (isDashPressed && _dashTimer <= 0) {
             _dashTimer = dashCooldown;
+            isFrenzy = false;
         }
         _dashTimer = Mathf.Max(_dashTimer - Time.deltaTime, 0);
         #endregion
+    }
+    private void OnFrenzy() {
+       if (!health.TryReduce(health.frenzyCost)) return;
+       isFrenzy = true;
     }
     #region input listeners
     private void OnMove(int value) {
@@ -113,6 +143,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnJump(bool value) {
         isJumpPressed = value;
+        if (value) { _jumpBufferTimer = jumpBuffer; }
     }
     private void OnDash(bool value) {
         isDashPressed = value;
@@ -141,6 +172,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.DashAimEvent += OnDashAim;
         _inputReader.WallGrabEvent += OnWallGrab;
         _inputReader.SlideEvent += OnWallSlide;
+        _inputReader.FrenzyEvent += OnFrenzy;
     }
     private void OnDisable() {
         _inputReader.MoveEvent -= OnMove;
@@ -151,6 +183,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.DashAimEvent -= OnDashAim;
         _inputReader.WallGrabEvent -= OnWallGrab;
         _inputReader.SlideEvent -= OnWallSlide;
+        _inputReader.FrenzyEvent -= OnFrenzy;
     }
 
     #endregion

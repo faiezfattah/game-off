@@ -13,6 +13,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public event UnityAction<bool> JumpEvent;
     public event UnityAction<bool> DashStartEvent;
     public event UnityAction<bool> DashAimEvent;
+    public event UnityAction FrenzyEvent;
 
     /// <summary>
     /// return mouse directional int
@@ -59,6 +60,11 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     }
     public void OnSlide(InputAction.CallbackContext ctx) {
         SlideEvent?.Invoke(Convert.ToInt32(ctx.ReadValue<float>()));
+    }
+    public void OnFrenzy(InputAction.CallbackContext ctx) {
+        if (ctx.started) {
+            FrenzyEvent?.Invoke();
+        }
     }
     private void EnableInput() {
         _inputActions.Default.Enable();

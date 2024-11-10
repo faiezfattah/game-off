@@ -89,6 +89,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Frenzy"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e9e071c-ebbd-4201-8dc1-f687d1dbc16c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e0425d2-67b0-4167-841d-4529d8ffce90"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Frenzy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +247,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Default_MousePosition = m_Default.FindAction("Mouse Position", throwIfNotFound: true);
         m_Default_Dash = m_Default.FindAction("Dash", throwIfNotFound: true);
         m_Default_WallGrab = m_Default.FindAction("Wall Grab", throwIfNotFound: true);
+        m_Default_Frenzy = m_Default.FindAction("Frenzy", throwIfNotFound: true);
     }
 
     ~@Input()
@@ -300,6 +321,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_MousePosition;
     private readonly InputAction m_Default_Dash;
     private readonly InputAction m_Default_WallGrab;
+    private readonly InputAction m_Default_Frenzy;
     public struct DefaultActions
     {
         private @Input m_Wrapper;
@@ -311,6 +333,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @MousePosition => m_Wrapper.m_Default_MousePosition;
         public InputAction @Dash => m_Wrapper.m_Default_Dash;
         public InputAction @WallGrab => m_Wrapper.m_Default_WallGrab;
+        public InputAction @Frenzy => m_Wrapper.m_Default_Frenzy;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -341,6 +364,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @WallGrab.started += instance.OnWallGrab;
             @WallGrab.performed += instance.OnWallGrab;
             @WallGrab.canceled += instance.OnWallGrab;
+            @Frenzy.started += instance.OnFrenzy;
+            @Frenzy.performed += instance.OnFrenzy;
+            @Frenzy.canceled += instance.OnFrenzy;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -366,6 +392,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @WallGrab.started -= instance.OnWallGrab;
             @WallGrab.performed -= instance.OnWallGrab;
             @WallGrab.canceled -= instance.OnWallGrab;
+            @Frenzy.started -= instance.OnFrenzy;
+            @Frenzy.performed -= instance.OnFrenzy;
+            @Frenzy.canceled -= instance.OnFrenzy;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -392,5 +421,6 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnMousePosition(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnWallGrab(InputAction.CallbackContext context);
+        void OnFrenzy(InputAction.CallbackContext context);
     }
 }
