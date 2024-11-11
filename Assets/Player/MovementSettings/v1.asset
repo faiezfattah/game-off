@@ -24,3 +24,12 @@ MonoBehaviour:
   fallForce: -150
   fallSlowForce: -50
   airControl: 2
+  maxStamina: 100
+  regenRate: 35
+  regenStopTime: 1
+  runRateCost: 25
+  dashCost: 30
+  jumpCost: 15
+  wallGrabRateCost: 10
+  wallSlideRateCost: 20
+  airControlRateCost: 5
