@@ -229,18 +229,7 @@ MonoBehaviour:
   rb: {fileID: 1777988520142432766}
   stamina: {fileID: 8554417257046428308}
   health: {fileID: 9002942795754006565}
-  walkSpeed: 1
-  runSpeed: 2.5
-  dashForce: 500
-  dashDuration: 0.3
-  dashCooldown: 1
-  dashVelocityRetention: 0.75
-  jumpForce: 50
-  jumpDuration: 0.5
-  jumpBuffer: 0.1
-  fallForce: -150
-  fallSlowForce: -50
-  aircControl: 2
+  settings: {fileID: 11400000, guid: 08ddf59904da3cb428e0e8dfb6ac4ae5, type: 2}
   coyoteTime: 0.3
   groundCheckDistance: 1.1
   wallCheckRadius: 0.5
@@ -249,6 +238,7 @@ MonoBehaviour:
   dirVertical: 0
   mousePos: {x: 0, y: 0}
   isRunPressed: 0
+  isRunQueued: 0
   isJumpPressed: 0
   haveJump: 0
   isJumpQueued: 0
@@ -261,7 +251,6 @@ MonoBehaviour:
   isWalled: 0
   isWallGrabbedPressed: 0
   isWallGrabQueued: 0
-  isFrenzy: 0
 --- !u!114 &6333893775765803471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,16 +290,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d396b097314a3a44b8e6a2aba9bcc779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxStamina: 100
-  regenRate: 20
-  regenStopTime: 1
+  settings: {fileID: 11400000, guid: 08ddf59904da3cb428e0e8dfb6ac4ae5, type: 2}
   currentStamina: 0
-  runRateCost: 10
-  dashCost: 40
-  jumpCost: 20
-  wallGrabRateCost: 5
-  wallSlideRateCost: 10
-  airControlRateCost: 10
 --- !u!114 &9002942795754006565
 MonoBehaviour:
   m_ObjectHideFlags: 0

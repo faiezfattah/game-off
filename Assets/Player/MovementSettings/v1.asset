@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 1
   runSpeed: 2.5
-  dashForce: 500
+  dashForce: 300
   dashDuration: 0.3
   dashCooldown: 1
   dashVelocityRetention: 0.75
