@@ -1,3 +1,4 @@
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,14 +10,14 @@ public class DashState : State {
     public Vector2 dir;
     public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
+        if(!playerController.stamina.TryReduce(playerController.settings.dashCost)) return;
         isUninterruptable = true;
         _duration = 0f;
-        //playerController.rb.useGravity = false;
-
         _centerPos = playerController.mousePos;
-
-        //playerController.rb.linearVelocity = playerController.rb.linearVelocity / 2;
         playerController.rb.linearVelocity = new Vector3(0, 0, 0);
+        Debug.Log($"Aim Start Time: {Time.time}");
+        Debug.Log($"{playerController.isDashQueued}, {playerController.isDashPressed}, {playerController.isDashAim}");
+
     }
     public override void Update() {
         if (!playerController.isDashPressed) return;
@@ -26,6 +27,7 @@ public class DashState : State {
     }
     public override void FixedUpdate() {
         if (playerController.isDashPressed) return;
+        playerController.visual.DisableDashingLine();
 
         _duration += Time.deltaTime;
 
@@ -41,9 +43,11 @@ public class DashState : State {
     }
     public override void Exit() {
         //playerController.rb.useGravity = true;
-        playerController.visual.DisableDashingLine();
         if (playerController.isJumpQueued) return;
+        playerController.visual.DisableDashingLine();
+
         playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.settings.dashVelocityRetention;
-        //new Vector3(playerController.rb.linearVelocity.x * playerController.dashVelocityRetention, playerController.rb.linearVelocity.y * playerController.dashVelocityRetention, 0);
+        Debug.Log($"Aim Exit Time: {Time.time}");
+        Debug.Log($"{playerController.isDashQueued}, {playerController.isDashPressed}, {playerController.isDashAim}");
     }
 }

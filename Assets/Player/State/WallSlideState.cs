@@ -9,9 +9,9 @@ public class WallSlideState : State {
         playerController.rb.useGravity = false;
     }
     public override void Update() {
-        float dir = Mathf.Clamp(playerController.settings.walkSpeed * playerController.dirVertical, -playerController.settings.walkSpeed, playerController.settings.walkSpeed);
+        float dir = Mathf.Clamp(playerController.settings.walkSpeed * playerController.dirVertical/2, -playerController.settings.walkSpeed, playerController.settings.walkSpeed);
         //playerController.rb.linearVelocity += new Vector3(0, dir, 0);
-        playerController.rb.AddForce(new Vector3(0, dir, 0), ForceMode.VelocityChange);
+        playerController.rb.AddForce(new Vector3(0, dir, 0), ForceMode.Impulse);
 
         if (playerController.dirVertical == 0 || !playerController.isWallGrabbedPressed || !playerController.isWalled || !playerController.isJumpQueued) {
             isUninterruptable = false;

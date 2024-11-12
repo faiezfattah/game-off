@@ -27,9 +27,9 @@ MonoBehaviour:
   maxStamina: 100
   regenRate: 35
   regenStopTime: 1
-  runRateCost: 25
+  runRateCost: 20
   dashCost: 30
-  jumpCost: 15
+  jumpCost: 10
   wallGrabRateCost: 10
-  wallSlideRateCost: 20
+  wallSlideRateCost: 15
   airControlRateCost: 5

@@ -1,26 +1,27 @@
+using Unity.Properties;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private PlayerData _data;
     [SerializeField] private int maxHealth = 3;
 
     public int frenzyCost = 1;
 
-    private float _currentHealth;
     void Start()
     {
-        _currentHealth = maxHealth;
+        _data.health = maxHealth;
     }
 
     public bool TryReduce(int amount) {
         if (!Check(amount)) return false;
 
-        _currentHealth -= amount;
-        if (_currentHealth <= 0) Die();
+        _data.health -= amount;
+        if (_data.health <= 0) Die();
         return true;
     }
     public bool Check(int amount) {
-        return _currentHealth >= amount;
+        return _data.health >= amount;
     }
     private void Die() {
         Debug.Log("die");

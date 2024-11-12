@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement QoL")]
     public float coyoteTime = 0.5f;
-    public float groundCheckDistance = 0.1f;
+    public float groundCheckRadius = 0.1f;
     public float wallCheckRadius = 1f;
 
     [Space(10)]
@@ -62,7 +62,6 @@ public class PlayerController : MonoBehaviour
     private float _dashTimer;
     void Start(){
         playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
-        groundCheckDistance += playerHalfHeight;
         if (!rb) rb = GetComponent<Rigidbody>();
         if (!visual) visual = GetComponent<PlayerVisualizer>();
         if (_ground == 0) _ground = LayerMask.GetMask("Ground");
@@ -74,7 +73,7 @@ public class PlayerController : MonoBehaviour
         }
 
         #region wall n ground check
-        isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, wallCheckRadius, _ground);
+        isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _ground);
         visual.radius = wallCheckRadius;
         isWalled = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _ground);
         #endregion
@@ -96,7 +95,7 @@ public class PlayerController : MonoBehaviour
         _jumpBufferTimer = Mathf.Max(_jumpBufferTimer - Time.deltaTime, 0);
 
         isCoyote = _coyoteTimer > 0;
-        isJumpQueued = _jumpBufferTimer > 0 && (haveJump || isCoyote) && stamina.TryReduce(settings.jumpCost);
+        isJumpQueued = _jumpBufferTimer > 0 && haveJump && isCoyote;
 
         if (isJumpQueued) { 
             haveJump = false;
@@ -108,12 +107,13 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region dash check
-        isDashQueued = _dashTimer <= 0 && isDashPressed && stamina.TryReduce(settings.dashCost);
-
-        if (isDashPressed && _dashTimer <= 0) {
+        isDashQueued = _dashTimer <= 0 && isDashPressed;
+        if (isDashQueued) {
             _dashTimer = settings.dashCooldown;
         }
+
         _dashTimer = Mathf.Max(_dashTimer - Time.deltaTime, 0);
+        if (isDashQueued) Debug.Log(isDashQueued);
         #endregion
     }
     private void OnFrenzy() {
@@ -128,13 +128,6 @@ public class PlayerController : MonoBehaviour
     private void OnMove(int value) => dirHorizontal = value;
     private void OnDash(bool value){
         isDashPressed = value;
-
-        if (value && _dashTimer <= 0) {
-            isDashQueued = stamina.TryReduce(settings.dashCost);
-            if (isDashQueued) {
-                _dashTimer = settings.dashCooldown;
-            }
-        }
     }
     private void OnDashAim(bool value) => isDashAim = value;
     private void MousePosition(Vector2 value) => mousePos = value;

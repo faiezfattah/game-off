@@ -54,6 +54,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public void OnDash(InputAction.CallbackContext ctx) {
         DashStartEvent?.Invoke(ctx.performed);
         DashAimEvent?.Invoke(ctx.canceled);
+        //Debug.Log($"Dash Input Phase: {ctx.phase}");
     }
     public void OnWallGrab(InputAction.CallbackContext ctx) {
         WallGrabEvent?.Invoke(ctx.performed);

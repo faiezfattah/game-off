@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: AmmuseXMusang
   productName: game-off
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -140,7 +140,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.1.0
+  bundleVersion: Alpha
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -928,7 +928,7 @@ PlayerSettings:
   qnxGraphicConfPath: 
   apiCompatibilityLevel: 6
   captureStartupLogs: {}
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: def43dca-bc4d-4a93-8c55-8feefaf55513
   framebufferDepthMemorylessMode: 0

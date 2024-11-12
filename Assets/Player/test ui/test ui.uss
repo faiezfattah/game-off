@@ -1,0 +1,9 @@
+VisualElement > VisualElement > #Health > #unity-progress-bar {
+    height: 4152px;
+    max-height: 50px;
+}
+
+VisualElement > VisualElement > #Stamina > #unity-progress-bar {
+    height: 4164px;
+    max-height: 50px;
+}
