@@ -116,6 +116,12 @@ public class PlayerController : MonoBehaviour
         if (isDashQueued) Debug.Log(isDashQueued);
         #endregion
     }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        Debug.Log("Particle HIT " + collider.name);
+    }
+
     private void OnFrenzy() {
        if (!health.TryReduce(health.frenzyCost)) return;
         stamina.Frenzy();
