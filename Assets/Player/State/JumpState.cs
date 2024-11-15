@@ -9,6 +9,7 @@ public class JumpState : State {
         //if (playerController.isWallGrabQueued) {
         //    playerController.rb.AddForce(new Vector3(playerController.settings.jumpForce * playerController.dirHorizontal, playerController.settings.jumpForce, 0), ForceMode.Impulse);
         //}
+        if (!playerController.stamina.TryReduce(playerController.settings.jumpCost)) return;
         playerController.rb.AddForce(new Vector3(0, playerController.settings.jumpForce, 0), ForceMode.Impulse);
         //Debug.Log("jumping");
         isUninterruptable = true;
@@ -21,11 +22,11 @@ public class JumpState : State {
             playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.runSpeed, -playerController.settings.runSpeed, playerController.settings.runSpeed), 0, 0);
         }
         else {
-            playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.runSpeed, -playerController.settings.walkSpeed, playerController.settings.walkSpeed), 0, 0);
+            playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.walkSpeed, -playerController.settings.walkSpeed, playerController.settings.walkSpeed), 0, 0);
         }
 
         //break
-        if (_duration >= playerController.settings.jumpDuration || !playerController.isJumpPressed || playerController.isDashPressed) {
+        if (_duration >= playerController.settings.jumpDuration || !playerController.isJumpPressed || playerController.isDashQueued) {
             isUninterruptable = false;
         }
     }

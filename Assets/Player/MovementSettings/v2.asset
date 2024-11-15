@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea0458ebc42eac243a85df5a3ab8969c, type: 3}
-  m_Name: v1
+  m_Name: v2
   m_EditorClassIdentifier: 
   walkSpeed: 1
   runSpeed: 2.5
@@ -21,15 +21,15 @@ MonoBehaviour:
   jumpForce: 50
   jumpDuration: 0.5
   jumpBuffer: 0.1
-  fallForce: -150
-  fallSlowForce: -50
+  fallForce: -140
+  fallSlowForce: -30
   airControl: 2
   maxStamina: 100
-  regenRate: 35
+  regenRate: 50
   regenStopTime: 1
   runRateCost: 20
-  dashCost: 30
-  jumpCost: 10
+  dashCost: 40
+  jumpCost: 20
   wallGrabRateCost: 10
-  wallSlideRateCost: 15
+  wallSlideRateCost: 25
   airControlRateCost: 5
