@@ -11,7 +11,7 @@ public class WallGrabState : State
         playerController.rb.linearVelocity = Vector3.zero;
     }
     public override void Update() {
-        if (playerController.dirVertical != 0 || !playerController.isWalled || playerController.isJumpQueued || !playerController.isWallGrabQueued) {
+        if (playerController.dirVertical != 0 || playerController.isJumpQueued || !playerController.isWallGrabQueued ||  !playerController.stamina.TryReduce(playerController.settings.wallGrabRateCost * Time.deltaTime)) {
             isUninterruptable = false;
         }
     }

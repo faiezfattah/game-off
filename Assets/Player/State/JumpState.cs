@@ -22,11 +22,11 @@ public class JumpState : State {
             playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.runSpeed, -playerController.settings.runSpeed, playerController.settings.runSpeed), 0, 0);
         }
         else {
-            playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.runSpeed, -playerController.settings.walkSpeed, playerController.settings.walkSpeed), 0, 0);
+            playerController.rb.linearVelocity += new Vector3(Mathf.Clamp(playerController.dirHorizontal * playerController.settings.walkSpeed, -playerController.settings.walkSpeed, playerController.settings.walkSpeed), 0, 0);
         }
 
         //break
-        if (_duration >= playerController.settings.jumpDuration || !playerController.isJumpPressed || playerController.isDashPressed) {
+        if (_duration >= playerController.settings.jumpDuration || !playerController.isJumpPressed || playerController.isDashQueued) {
             isUninterruptable = false;
         }
     }

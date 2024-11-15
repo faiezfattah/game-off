@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public bool isDashAim;
     public bool isDashQueued;
     public bool isDashCoolingDown;
+    public bool isDashCanceled;
 
     [Space(10)]
     public bool isGrounded;
@@ -72,23 +73,28 @@ public class PlayerController : MonoBehaviour
             _rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3 (0, dirHorizontal > 0? 0 : 180f,0));
         }
 
-        #region wall n ground check
+        GroundWallCheck();
+        WallGrabCheck();
+        JumpCheck();
+        RunCheck();
+        DashCheck();
+    }
+    private void GroundWallCheck() {
         isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _ground);
+        //isGrounded = Physics.CheckBox(transform.position + Vector3.down * playerHalfHeight, new Vector3(1, groundCheckRadius, 1), Quaternion.identity, _ground);
         visual.radius = wallCheckRadius;
         isWalled = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _ground);
-        #endregion
-
-        #region wall grab check
-        isWallGrabQueued = isWalled && isWallGrabbedPressed && stamina.TryReduce(settings.wallGrabRateCost*Time.deltaTime);
-        #endregion
-
-        #region jump check
+    }
+    private void WallGrabCheck() {
+        isWallGrabQueued = isWalled && isWallGrabbedPressed && stamina.Check(settings.wallSlideRateCost * Time.deltaTime);
+    }
+    private void JumpCheck() {
         if (isGrounded || isWallGrabQueued) {
             _coyoteTimer = coyoteTime;
             haveJump = true;
         }
         else if (isJumpQueued) {
-            _coyoteTimer = 0; 
+            _coyoteTimer = 0;
         }
 
         _coyoteTimer = Mathf.Max(_coyoteTimer - Time.deltaTime, 0);
@@ -97,24 +103,21 @@ public class PlayerController : MonoBehaviour
         isCoyote = _coyoteTimer > 0;
         isJumpQueued = _jumpBufferTimer > 0 && haveJump && isCoyote;
 
-        if (isJumpQueued) { 
+        if (isJumpQueued) {
             haveJump = false;
         };
-        #endregion
-
-        #region run check
+    }
+    private void RunCheck() {
         isRunQueued = isRunPressed && stamina.Check(1);
-        #endregion
-
-        #region dash check
-        isDashQueued = _dashTimer <= 0 && isDashPressed;
+    }
+    private void DashCheck() {
+        isDashQueued = _dashTimer <= 0 && isDashPressed && !isDashCanceled;
         if (isDashQueued) {
             _dashTimer = settings.dashCooldown;
         }
 
         _dashTimer = Mathf.Max(_dashTimer - Time.deltaTime, 0);
-        if (isDashQueued) Debug.Log(isDashQueued);
-        #endregion
+        //if (isDashQueued) Debug.Log(isDashQueued);
     }
 
     void OnTriggerEnter(Collider collider)
@@ -140,6 +143,7 @@ public class PlayerController : MonoBehaviour
     private void OnRun(bool value) => isRunPressed = value;
     private void OnWallGrab(bool value) => isWallGrabbedPressed = value;
     private void OnWallSlide(int value) => dirVertical = value;
+    private void OnDashCancel(bool value) => isDashCanceled = value;
     private void OnEnable() {
         _inputReader.MoveEvent += OnMove;
         _inputReader.JumpEvent += OnJump;
@@ -150,6 +154,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.WallGrabEvent += OnWallGrab;
         _inputReader.SlideEvent += OnWallSlide;
         _inputReader.FrenzyEvent += OnFrenzy;
+        _inputReader.DashCancelEvent += OnDashCancel;
     }
     private void OnDisable() {
         _inputReader.MoveEvent -= OnMove;
@@ -161,6 +166,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.WallGrabEvent -= OnWallGrab;
         _inputReader.SlideEvent -= OnWallSlide;
         _inputReader.FrenzyEvent -= OnFrenzy;
+        _inputReader.DashCancelEvent -= OnDashCancel;
     }
 
     #endregion

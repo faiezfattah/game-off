@@ -10,17 +10,16 @@ public class DashState : State {
     public Vector2 dir;
     public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
-        if(!playerController.stamina.TryReduce(playerController.settings.dashCost)) return;
+        if(!playerController.stamina.Check(playerController.settings.dashCost)) return;
         isUninterruptable = true;
         _duration = 0f;
         _centerPos = playerController.mousePos;
         playerController.rb.linearVelocity = new Vector3(0, 0, 0);
-        Debug.Log($"Aim Start Time: {Time.time}");
-        Debug.Log($"{playerController.isDashQueued}, {playerController.isDashPressed}, {playerController.isDashAim}");
 
     }
     public override void Update() {
         if (!playerController.isDashPressed) return;
+        if (playerController.isDashCanceled) { isUninterruptable=false; }
         dir = playerController.mousePos - _centerPos;
         dir = dir.normalized;
         playerController.visual.DrawDashingLine(dir * 100);
@@ -42,12 +41,11 @@ public class DashState : State {
         }
     }
     public override void Exit() {
-        //playerController.rb.useGravity = true;
-        if (playerController.isJumpQueued) return;
-        playerController.visual.DisableDashingLine();
+        //if (playerController.isJumpQueued) return;
+        //if (!playerController.isDashCanceled && !playerController.stamina.TryReduce(playerController.settings.dashCost)) return;
 
+        if (!playerController.isDashCanceled) playerController.stamina.TryReduce(playerController.settings.dashCost);
+        playerController.visual.DisableDashingLine();
         playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.settings.dashVelocityRetention;
-        Debug.Log($"Aim Exit Time: {Time.time}");
-        Debug.Log($"{playerController.isDashQueued}, {playerController.isDashPressed}, {playerController.isDashAim}");
     }
 }

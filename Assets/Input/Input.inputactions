@@ -60,6 +60,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Cancel Dash",
+                    "type": "Button",
+                    "id": "4895999e-8af4-49df-89d5-8ff722332a93",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Wall Grab",
                     "type": "Button",
                     "id": "6c1f24ea-a01b-4ff0-a19f-b7766374d2c5",
@@ -208,6 +217,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Frenzy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "77946265-edce-4b35-9d67-ceed1ca8696d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

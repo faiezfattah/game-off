@@ -13,6 +13,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public event UnityAction<bool> JumpEvent;
     public event UnityAction<bool> DashStartEvent;
     public event UnityAction<bool> DashAimEvent;
+    public event UnityAction<bool> DashCancelEvent;
     public event UnityAction FrenzyEvent;
 
     /// <summary>
@@ -66,6 +67,9 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         if (ctx.started) {
             FrenzyEvent?.Invoke();
         }
+    }
+    public void OnCancelDash(InputAction.CallbackContext ctx) {
+            DashCancelEvent?.Invoke(ctx.performed);
     }
     private void EnableInput() {
         _inputActions.Default.Enable();

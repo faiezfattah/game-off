@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea0458ebc42eac243a85df5a3ab8969c, type: 3}
+  m_Name: v2
+  m_EditorClassIdentifier: 
+  walkSpeed: 1
+  runSpeed: 2.5
+  dashForce: 300
+  dashDuration: 0.3
+  dashCooldown: 1
+  dashVelocityRetention: 0.75
+  jumpForce: 50
+  jumpDuration: 0.5
+  jumpBuffer: 0.1
+  fallForce: -140
+  fallSlowForce: -30
+  airControl: 2
+  maxStamina: 100
+  regenRate: 50
+  regenStopTime: 1
+  runRateCost: 20
+  dashCost: 40
+  jumpCost: 20
+  wallGrabRateCost: 10
+  wallSlideRateCost: 25
+  airControlRateCost: 5

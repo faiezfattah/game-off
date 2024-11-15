@@ -6,18 +6,6 @@ public class PlayerStamina : MonoBehaviour
 {
     [SerializeField] private PlayerMovementSettings settings;
     [SerializeField] private PlayerData _data;
-    //[SerializeField] private float maxStamina = 100;
-    //[SerializeField] private float regenRate = 5; // per seconds
-    //[SerializeField] private float regenStopTime = 3; // per seconds\
-
-
-    //[Header("Stamina Cost")] //'rate' = per seconds
-    //public float runRateCost = 10f;
-    //public float dashCost = 40f;
-    //public float jumpCost = 20f;
-    //public float wallGrabRateCost = 5f;
-    //public float wallSlideRateCost = 10f;
-    //public float airControlRateCost = 50f;
 
     private Coroutine _stopRegen;
     private float _stopRegenTimer;
@@ -30,7 +18,7 @@ public class PlayerStamina : MonoBehaviour
         _data.stamina -= amount;
         _data.stamina = Mathf.Clamp(_data.stamina, 0, settings.maxStamina);
         _stopRegenTimer = settings.regenStopTime;
-        Debug.Log("decreased" + amount);
+        // Debug.Log("decreased" + amount);
         return true;
     }
     public void Increase(float amount) {
