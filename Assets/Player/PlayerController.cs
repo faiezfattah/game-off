@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
     public bool isWallGrabbedPressed;
     public bool isWallGrabQueued;
 
+    [Space(10)]
+    [SerializeField] private float radius = 2f;
+
     private float playerHalfHeight = 0.5f;
     private Vector3 _linearVelocity;
     private float _coyoteTimer;
@@ -78,6 +81,19 @@ public class PlayerController : MonoBehaviour
         JumpCheck();
         RunCheck();
         DashCheck();
+    }
+    private void OnInteract() {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+
+        foreach (var hitCollider in hitColliders) {
+            if (hitCollider.TryGetComponent<Interactable>(out var interactable)) {
+                interactable.Interact();
+                return; // break the foreach loop
+            }
+        }
+    }
+        private void OnDrawGizmosSelected() {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
     private void GroundWallCheck() {
         isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _ground);
@@ -155,6 +171,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.SlideEvent += OnWallSlide;
         _inputReader.FrenzyEvent += OnFrenzy;
         _inputReader.DashCancelEvent += OnDashCancel;
+        _inputReader.InteractEvent += OnInteract;
     }
     private void OnDisable() {
         _inputReader.MoveEvent -= OnMove;
@@ -167,6 +184,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.SlideEvent -= OnWallSlide;
         _inputReader.FrenzyEvent -= OnFrenzy;
         _inputReader.DashCancelEvent -= OnDashCancel;
+        _inputReader.InteractEvent -= OnInteract;
     }
 
     #endregion
