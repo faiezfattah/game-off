@@ -2214,7 +2214,7 @@ GameObject:
   - component: {fileID: 514660262}
   - component: {fileID: 514660261}
   - component: {fileID: 514660260}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6870,7 +6870,7 @@ GameObject:
   - component: {fileID: 604462548}
   - component: {fileID: 604462547}
   - component: {fileID: 604462546}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Pipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
