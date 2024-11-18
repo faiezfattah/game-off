@@ -1,0 +1,19 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Player/test%20ui/test%20ui.uss?fileID=7433441132597879392&amp;guid=9952ff9072c20ec42ba8afaa976d728e&amp;type=3#test ui" />
+    <engine:VisualElement style="flex-grow: 1; flex-direction: row;">
+        <engine:VisualElement style="flex-grow: 1;">
+            <engine:ProgressBar value="22" title="Health" name="Health" data-source="project://database/Assets/Player/Save/PlayerData.asset?fileID=11400000&amp;guid=222cf425ea3a32945a4225901f975556&amp;type=2#PlayerData" high-value="3" class="bar" style="padding-top: 10px; height: 68px; max-height: 73px;">
+                <Bindings>
+                    <engine:DataBinding property="value" data-source-path="health" data-source-type="PlayerHealth, Assembly-CSharp" binding-mode="ToTarget" />
+                </Bindings>
+            </engine:ProgressBar>
+            <engine:ProgressBar value="22" title="Stamina" name="Stamina" picking-mode="Ignore" focusable="false" data-source-type="PlayerStamina, Assembly-CSharp" enabled="true" data-source-path="stamina" data-source="project://database/Assets/Player/Save/PlayerData.asset?fileID=11400000&amp;guid=222cf425ea3a32945a4225901f975556&amp;type=2#PlayerData" class="bar">
+                <Bindings>
+                    <engine:DataBinding property="value" data-source-type="PlayerStamina, Assembly-CSharp" binding-mode="ToTarget" update-trigger="OnSourceChanged" />
+                </Bindings>
+            </engine:ProgressBar>
+            <engine:Label text="Welcome to our playtest!&#10;This build is for only movement test.&#10;&#10;Control scheme:&#10;[A, D] Move&#10;[Space] Jump, hold to fall slowly&#10;[Hold Shift] Run/Climb&#10;[W, S] Move up and down when climbing&#10;[Hold &amp; Drag Left Mouse] Dash&#10;[Ctrl] Sacrifice Health to regain stamina" style="align-items: flex-start; align-self: flex-start; justify-content: flex-end; align-content: flex-end; font-size: 24px; -unity-font-style: bold;" />
+        </engine:VisualElement>
+        <engine:VisualElement style="flex-grow: 1; flex-basis: 50%; flex-direction: column-reverse; flex-wrap: wrap;" />
+    </engine:VisualElement>
+</engine:UXML>

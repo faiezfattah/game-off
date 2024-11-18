@@ -8,12 +8,11 @@ public class WallSlideState : State {
         isUninterruptable = true;
         playerController.rb.useGravity = false;
     }
-    public override void Update() {
-        float dir = Mathf.Clamp(playerController.settings.walkSpeed * playerController.dirVertical, -playerController.settings.walkSpeed, playerController.settings.walkSpeed);
+    public override void FixedUpdate() {
+        float dir = Mathf.Clamp(playerController.settings.walkSpeed * playerController.dirVertical/2, -playerController.settings.walkSpeed, playerController.settings.walkSpeed);
         //playerController.rb.linearVelocity += new Vector3(0, dir, 0);
-        playerController.rb.AddForce(new Vector3(0, dir, 0), ForceMode.VelocityChange);
-
-        if (playerController.dirVertical == 0 || !playerController.isWallGrabbedPressed || !playerController.isWalled || !playerController.isJumpQueued) {
+        playerController.rb.AddForce(new Vector3(0, dir, 0), ForceMode.Impulse);
+        if (!playerController.stamina.TryReduce(playerController.settings.wallSlideRateCost * Time.deltaTime)  || !playerController.isWallGrabbedPressed  || !playerController.isJumpQueued || playerController.dirVertical == 0) {
             isUninterruptable = false;
         }
     }

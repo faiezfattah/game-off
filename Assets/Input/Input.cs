@@ -82,6 +82,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Cancel Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""4895999e-8af4-49df-89d5-8ff722332a93"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Wall Grab"",
                     ""type"": ""Button"",
                     ""id"": ""6c1f24ea-a01b-4ff0-a19f-b7766374d2c5"",
@@ -232,6 +241,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Frenzy"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77946265-edce-4b35-9d67-ceed1ca8696d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -246,6 +266,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Default_Run = m_Default.FindAction("Run", throwIfNotFound: true);
         m_Default_MousePosition = m_Default.FindAction("Mouse Position", throwIfNotFound: true);
         m_Default_Dash = m_Default.FindAction("Dash", throwIfNotFound: true);
+        m_Default_CancelDash = m_Default.FindAction("Cancel Dash", throwIfNotFound: true);
         m_Default_WallGrab = m_Default.FindAction("Wall Grab", throwIfNotFound: true);
         m_Default_Frenzy = m_Default.FindAction("Frenzy", throwIfNotFound: true);
     }
@@ -320,6 +341,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_Run;
     private readonly InputAction m_Default_MousePosition;
     private readonly InputAction m_Default_Dash;
+    private readonly InputAction m_Default_CancelDash;
     private readonly InputAction m_Default_WallGrab;
     private readonly InputAction m_Default_Frenzy;
     public struct DefaultActions
@@ -332,6 +354,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Default_Run;
         public InputAction @MousePosition => m_Wrapper.m_Default_MousePosition;
         public InputAction @Dash => m_Wrapper.m_Default_Dash;
+        public InputAction @CancelDash => m_Wrapper.m_Default_CancelDash;
         public InputAction @WallGrab => m_Wrapper.m_Default_WallGrab;
         public InputAction @Frenzy => m_Wrapper.m_Default_Frenzy;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
@@ -361,6 +384,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @CancelDash.started += instance.OnCancelDash;
+            @CancelDash.performed += instance.OnCancelDash;
+            @CancelDash.canceled += instance.OnCancelDash;
             @WallGrab.started += instance.OnWallGrab;
             @WallGrab.performed += instance.OnWallGrab;
             @WallGrab.canceled += instance.OnWallGrab;
@@ -389,6 +415,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @CancelDash.started -= instance.OnCancelDash;
+            @CancelDash.performed -= instance.OnCancelDash;
+            @CancelDash.canceled -= instance.OnCancelDash;
             @WallGrab.started -= instance.OnWallGrab;
             @WallGrab.performed -= instance.OnWallGrab;
             @WallGrab.canceled -= instance.OnWallGrab;
@@ -420,6 +449,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnCancelDash(InputAction.CallbackContext context);
         void OnWallGrab(InputAction.CallbackContext context);
         void OnFrenzy(InputAction.CallbackContext context);
     }
