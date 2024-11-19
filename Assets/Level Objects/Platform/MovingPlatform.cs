@@ -1,18 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
-public class MovingOnTrigger : MonoBehaviour
+public class MovingPlatform : MonoBehaviour, IToggleableTarget
 {
-    [SerializeField] private BoolChannel _trigger;
+    [SerializeField] private bool isTriggered = false;
     [SerializeField] private float _timeToMove = 3f;
     [SerializeField] private GameObject _objectToMove; 
     [SerializeField] private Transform[] _waypoints;
-    private bool _isActive = false;
     private int _previousWaypoint = 0;
     private int _currentWaypoint = 1;
     private float _elapsedTime;
+
+    protected bool isActive = false;
     private void FixedUpdate() {
-        if (!_isActive && _trigger != null) return;
+        if (!isActive && isTriggered) return;
         _elapsedTime += Time.deltaTime;
         float factor = _elapsedTime / _timeToMove;
         _objectToMove.transform.position = Vector3.Lerp(_waypoints[_previousWaypoint].position, _waypoints[_currentWaypoint].position, factor);
@@ -30,15 +31,7 @@ public class MovingOnTrigger : MonoBehaviour
 
         _elapsedTime = 0;
     }
-    void HandleTrigger(bool value) {
-        _isActive = value;
-    }
-    private void OnEnable() {
-        if (_trigger == null) return;
-        _trigger.OnEventRaised += HandleTrigger;
-    }
-    private void OnDisable() {
-        if (_trigger == null) return;
-        _trigger.OnEventRaised -= HandleTrigger;
+    public void Toggle(bool value) {
+        isActive = value;
     }
 }

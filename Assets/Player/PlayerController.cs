@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _rotatingContainer;
     [SerializeField] private GameObject _wallCheck;
     [SerializeField] private LayerMask _ground;
+    [SerializeField] private PlayerData _playerData;
+    [SerializeField] private PlayerStateMachine _statemMachine;
 
     [Header("Public Reference")]
     public PlayerVisualizer visual;
@@ -86,9 +88,9 @@ public class PlayerController : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach (var hitCollider in hitColliders) {
-            if (hitCollider.TryGetComponent<Interactable>(out var interactable)) {
+            if (hitCollider.TryGetComponent<IInteractable>(out var interactable)) {
                 interactable.Interact();
-                return; // break the foreach loop
+                return; // break the foreach loop on the first success
             }
         }
     }
@@ -142,8 +144,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnFrenzy() {
-       if (!health.TryReduce(health.frenzyCost)) return;
-        stamina.Frenzy();
+        if (!_playerData.powerUp[typeof(FrenzyState)]) return;
+        if (!health.Check(health.frenzyCost)) return;
+        _statemMachine.ChangeState(_statemMachine.frenzyState); 
     }
     #region input listeners
     private void OnJump(bool value) {

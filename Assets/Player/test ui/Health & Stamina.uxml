@@ -12,7 +12,7 @@
                     <engine:DataBinding property="value" data-source-type="PlayerStamina, Assembly-CSharp" binding-mode="ToTarget" update-trigger="OnSourceChanged" />
                 </Bindings>
             </engine:ProgressBar>
-            <engine:Label text="Welcome to our playtest!&#10;This build is for only movement test.&#10;&#10;Control scheme:&#10;[A, D] Move&#10;[Space] Jump, hold to fall slowly&#10;[Hold Shift] Run/Climb&#10;[W, S] Move up and down when climbing&#10;[Hold &amp; Drag Left Mouse] Dash&#10;[Ctrl] Sacrifice Health to regain stamina" style="align-items: flex-start; align-self: flex-start; justify-content: flex-end; align-content: flex-end; font-size: 24px; -unity-font-style: bold;" />
+            <engine:Label text="Welcome to our playtest!&#10;This build is for only movement test.&#10;&#10;Control scheme:&#10;[A, D] Move&#10;[Space] Jump, hold to fall slowly&#10;[Hold Shift] Run/Climb&#10;[W, S] Move up and down when climbing&#10;[Hold &amp; Drag Left Mouse] Dash&#10;[Ctrl] Sacrifice Health to regain stamina&#10;[F] Interact" style="align-items: flex-start; align-self: flex-start; justify-content: flex-end; align-content: flex-end; font-size: 24px; -unity-font-style: bold;" />
         </engine:VisualElement>
         <engine:VisualElement style="flex-grow: 1; flex-basis: 50%; flex-direction: column-reverse; flex-wrap: wrap;" />
     </engine:VisualElement>
