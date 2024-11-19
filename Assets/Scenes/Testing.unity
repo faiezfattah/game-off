@@ -3119,7 +3119,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7045680319443806472, guid: aa671ce163156e04daa880afce44f893, type: 3}
       propertyPath: m_Name
-      value: Pickable Item (1)
+      value: Dashing
       objectReference: {fileID: 0}
     - target: {fileID: 7493624035235593558, guid: aa671ce163156e04daa880afce44f893, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3993,7 +3993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7045680319443806472, guid: aa671ce163156e04daa880afce44f893, type: 3}
       propertyPath: m_Name
-      value: Pickable Item
+      value: Jumping
       objectReference: {fileID: 0}
     - target: {fileID: 7493624035235593558, guid: aa671ce163156e04daa880afce44f893, type: 3}
       propertyPath: m_LocalPosition.x

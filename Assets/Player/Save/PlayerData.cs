@@ -13,23 +13,30 @@ public class PlayerData : ScriptableObject
 
     [Space(10)]
     public Dictionary<Type, bool> powerUp = new();
+    public bool godMode = false;
+
+
     private void OnEnable() {
-        //defaults
-        powerUp.Add(typeof(IdleState), true);
-        powerUp.Add(typeof(WalkState), true);
-        powerUp.Add(typeof(FallState), true);
 
-        //obtainable
-        powerUp.Add(typeof(RunState), false);
+        #if UNITY_EDITOR
+            godMode = true;
+        #endif
 
-        powerUp.Add(typeof(JumpState), false);
+        if (powerUp.Count == 0) {
 
-        powerUp.Add(typeof(DashState), false);
+            //defaults
+            powerUp[typeof(IdleState)] = true;
+            powerUp[typeof(WalkState)] = true;
+            powerUp[typeof(FallState)] = true;
 
-        powerUp.Add(typeof(WallGrabState), false);
-        powerUp.Add(typeof(WallSlideState), true);
-
-        powerUp.Add(typeof(FrenzyState), false);
+            //obtainable
+            powerUp[typeof(RunState)] = godMode;
+            powerUp[typeof(JumpState)] = godMode;
+            powerUp[typeof(DashState)] = godMode;
+            powerUp[typeof(WallGrabState)] = godMode;
+            powerUp[typeof(WallSlideState)] = godMode;
+            powerUp[typeof(FrenzyState)] = godMode;
+        }
     }
 
     [Header("No-save Data")]
