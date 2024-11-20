@@ -14,6 +14,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public event UnityAction<bool> DashStartEvent;
     public event UnityAction<bool> DashAimEvent;
     public event UnityAction<bool> DashCancelEvent;
+    public event UnityAction InteractEvent;
     public event UnityAction FrenzyEvent;
 
     /// <summary>
@@ -69,7 +70,12 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         }
     }
     public void OnCancelDash(InputAction.CallbackContext ctx) {
-            DashCancelEvent?.Invoke(ctx.performed);
+        DashCancelEvent?.Invoke(ctx.performed);
+    }
+    public void OnInteract(InputAction.CallbackContext ctx) {
+        if (ctx.performed) {
+            InteractEvent?.Invoke();
+        }
     }
     private void EnableInput() {
         _inputActions.Default.Enable();
