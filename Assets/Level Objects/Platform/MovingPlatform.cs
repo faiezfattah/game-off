@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 
@@ -7,31 +8,50 @@ public class MovingPlatform : MonoBehaviour, IToggleableTarget
     [SerializeField] private float _timeToMove = 3f;
     [SerializeField] private GameObject _objectToMove; 
     [SerializeField] private Transform[] _waypoints;
-    private int _previousWaypoint = 0;
-    private int _currentWaypoint = 1;
-    private float _elapsedTime;
+
+    private Tweener _tween;
+    private int _currentIndex = 1;
+    private int _nextIndex;
 
     protected bool isActive = false;
-    private void FixedUpdate() {
+    private void Start() {
         if (!isActive && isTriggered) return;
-        _elapsedTime += Time.deltaTime;
-        float factor = _elapsedTime / _timeToMove;
-        _objectToMove.transform.position = Vector3.Lerp(_waypoints[_previousWaypoint].position, _waypoints[_currentWaypoint].position, factor);
-        if (factor >= 1) {
-            GetNextWaypoint();
-        }
+         Move();
     }
-    private void GetNextWaypoint() {
-        _previousWaypoint = _currentWaypoint;
-        _currentWaypoint = _currentWaypoint + 1;
+    private void Move() {
+        //if (_tween != null) return;
 
-        if (_currentWaypoint >= _waypoints.Length) {
-            _currentWaypoint = 0;
+        // i miss u gsap muah
+        _tween = _objectToMove.transform.DOMove(_waypoints[_currentIndex].position, _timeToMove)
+            .SetEase(Ease.InOutQuad)
+            .SetAutoKill(false)
+            .OnComplete(() => {
+                HandleComplete();
+            });
+    }
+    private void HandleComplete() {
+        _currentIndex = _nextIndex;
+        _nextIndex = (_currentIndex + 1) % _waypoints.Length; // such elegancy omg.
+
+        if (!isTriggered || isActive) {
+            Move();
         }
-
-        _elapsedTime = 0;
     }
     public void Toggle(bool value) {
         isActive = value;
+
+        if (value) {
+            _tween?.Kill();
+            Move();
+        }
+        else {
+            _tween?.Pause();
+        }
+    }
+    public void OnEnable() {
+        _tween?.Play();
+    }
+    public void OnDisable() {
+        _tween?.Pause();
     }
 }
