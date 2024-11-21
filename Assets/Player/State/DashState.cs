@@ -36,7 +36,7 @@ public class DashState : State {
         if (_duration > playerController.settings.dashDuration) {
             isUninterruptable = false;
         }
-        else if (playerController.isJumpQueued) {
+        else if (playerController.isJumpQueued || playerController.isWallGrabQueued) {
             isUninterruptable = false;
         }
     }

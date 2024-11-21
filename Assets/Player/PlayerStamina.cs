@@ -28,9 +28,6 @@ public class PlayerStamina : MonoBehaviour
     public bool Check(float amount) {
         return _data.stamina >= amount;
     }
-    public void Frenzy() {
-        _data.stamina = settings.maxStamina;
-    }
     private void Update() {
         _stopRegenTimer -= Time.deltaTime;
         if (_data.stamina >= settings.maxStamina || _stopRegenTimer > 0) return;

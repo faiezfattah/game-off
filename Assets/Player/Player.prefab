@@ -230,7 +230,7 @@ MonoBehaviour:
   rb: {fileID: 1777988520142432766}
   stamina: {fileID: 8554417257046428308}
   health: {fileID: 9002942795754006565}
-  settings: {fileID: 11400000, guid: 08ddf59904da3cb428e0e8dfb6ac4ae5, type: 2}
+  settings: {fileID: 11400000, guid: 630b1efede3b798469720c439aedd196, type: 2}
   coyoteTime: 0.3
   groundCheckRadius: 0.3
   wallCheckRadius: 0.5
@@ -253,6 +253,7 @@ MonoBehaviour:
   isWalled: 0
   isWallGrabbedPressed: 0
   isWallGrabQueued: 0
+  radius: 2
 --- !u!114 &6333893775765803471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,7 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d396b097314a3a44b8e6a2aba9bcc779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 08ddf59904da3cb428e0e8dfb6ac4ae5, type: 2}
+  settings: {fileID: 11400000, guid: 630b1efede3b798469720c439aedd196, type: 2}
   _data: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
 --- !u!114 &9002942795754006565
 MonoBehaviour:

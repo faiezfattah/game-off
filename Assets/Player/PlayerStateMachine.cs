@@ -7,6 +7,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public PlayerStateMachine(PlayerController playerController) { _playerController = playerController; }
 
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] private PlayerData _playerData;
     private Dictionary<Type, Dictionary<Type, Func<bool>>> transitionMatrix;
 
     private State _prevState;
@@ -20,6 +21,7 @@ public class PlayerStateMachine : MonoBehaviour {
     public RunState runState;
     public WallGrabState wallGrabState;
     public WallSlideState wallSlideState;
+    public FrenzyState frenzyState;
     private void Awake() {
         transitionMatrix = new Dictionary<Type, Dictionary<Type, Func<bool>>>();
 
@@ -31,6 +33,7 @@ public class PlayerStateMachine : MonoBehaviour {
         dashState = new DashState(this, _playerController);
         wallGrabState = new WallGrabState(this, _playerController);
         wallSlideState = new WallSlideState(this, _playerController);
+        frenzyState = new FrenzyState(this, _playerController); 
 
         //to dash
         AddTransition(typeof(State), typeof(DashState), () => _playerController.isDashQueued);
@@ -57,7 +60,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
         // to wall grab family
         AddTransition(typeof(State), typeof(WallGrabState), () => _playerController.isWallGrabQueued);
-        AddTransition(typeof(State), typeof(WallSlideState), () => _playerController.isWallGrabQueued && _playerController.dirVertical !=0);
+        AddTransition(typeof(State), typeof(WallSlideState), () => _playerController.isWallGrabQueued && _playerController.dirVertical !=0 && (_playerData.Powers.Contains(typeof(WallGrabState)) || godMode));
 
         _currentState = idleState;
     }
@@ -66,10 +69,9 @@ public class PlayerStateMachine : MonoBehaviour {
     }
     private void Update() {
         _currentState?.Update();
+
         // this has priority, top first. bottom last.
         // i hate it but idk what else to do
-
-
         if (CanTransitionTo(typeof(DashState))) {
             ChangeState(dashState);
         }
@@ -109,7 +111,10 @@ public class PlayerStateMachine : MonoBehaviour {
         //Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
         _playerController.currentState = _currentState.ToString();
     }
+    public bool godMode = true;
     public bool CanTransitionTo(Type to) {
+        if (!godMode && !_playerData.Powers.Contains(to) && to != typeof(WalkState) && to != typeof(IdleState) && to != typeof(FallState) && to != typeof(WallSlideState)) return false;
+
         if (transitionMatrix.TryGetValue(_currentState.GetType(), out var transitions)) {
             foreach (var (targetState, condition) in transitions) {
                 if (targetState == to && condition() && !_currentState.isUninterruptable) {

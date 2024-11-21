@@ -1,0 +1,7 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:VisualElement style="flex-grow: 1; flex-direction: row; align-self: center; align-content: center; justify-content: space-evenly; align-items: center; width: 828px;">
+        <engine:Button text="Button" data-source="project://database/Assets/Player/Save/PlayerData.asset?fileID=11400000&amp;guid=222cf425ea3a32945a4225901f975556&amp;type=2#PlayerData" double-click-selects-word="false" triple-click-selects-line="false" display-tooltip-when-elided="false" emoji-fallback-support="false" enable-rich-text="true" />
+        <engine:Button text="Button" />
+        <engine:Button text="Button" />
+    </engine:VisualElement>
+</engine:UXML>

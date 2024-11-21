@@ -107,6 +107,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""380d4a5c-1dd1-422d-9919-b3c9a8b292f4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -252,6 +261,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95bc8a47-7cc7-49dd-9db9-a043552f9e55"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -269,6 +289,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Default_CancelDash = m_Default.FindAction("Cancel Dash", throwIfNotFound: true);
         m_Default_WallGrab = m_Default.FindAction("Wall Grab", throwIfNotFound: true);
         m_Default_Frenzy = m_Default.FindAction("Frenzy", throwIfNotFound: true);
+        m_Default_Interact = m_Default.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@Input()
@@ -344,6 +365,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_CancelDash;
     private readonly InputAction m_Default_WallGrab;
     private readonly InputAction m_Default_Frenzy;
+    private readonly InputAction m_Default_Interact;
     public struct DefaultActions
     {
         private @Input m_Wrapper;
@@ -357,6 +379,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @CancelDash => m_Wrapper.m_Default_CancelDash;
         public InputAction @WallGrab => m_Wrapper.m_Default_WallGrab;
         public InputAction @Frenzy => m_Wrapper.m_Default_Frenzy;
+        public InputAction @Interact => m_Wrapper.m_Default_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -393,6 +416,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Frenzy.started += instance.OnFrenzy;
             @Frenzy.performed += instance.OnFrenzy;
             @Frenzy.canceled += instance.OnFrenzy;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -424,6 +450,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Frenzy.started -= instance.OnFrenzy;
             @Frenzy.performed -= instance.OnFrenzy;
             @Frenzy.canceled -= instance.OnFrenzy;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -452,5 +481,6 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnCancelDash(InputAction.CallbackContext context);
         void OnWallGrab(InputAction.CallbackContext context);
         void OnFrenzy(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

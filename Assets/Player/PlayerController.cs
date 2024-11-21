@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _rotatingContainer;
     [SerializeField] private GameObject _wallCheck;
     [SerializeField] private LayerMask _ground;
+    [SerializeField] private PlayerData _playerData;
+    [SerializeField] private PlayerStateMachine _statemMachine;
 
     [Header("Public Reference")]
     public PlayerVisualizer visual;
@@ -56,6 +58,9 @@ public class PlayerController : MonoBehaviour
     public bool isWallGrabbedPressed;
     public bool isWallGrabQueued;
 
+    [Space(10)]
+    [SerializeField] private float radius = 2f;
+
     private float playerHalfHeight = 0.5f;
     private Vector3 _linearVelocity;
     private float _coyoteTimer;
@@ -78,6 +83,19 @@ public class PlayerController : MonoBehaviour
         JumpCheck();
         RunCheck();
         DashCheck();
+    }
+    private void OnInteract() {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+
+        foreach (var hitCollider in hitColliders) {
+            if (hitCollider.TryGetComponent<IInteractable>(out var interactable)) {
+                interactable.Interact();
+                return; // break the foreach loop on the first success
+            }
+        }
+    }
+        private void OnDrawGizmosSelected() {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
     private void GroundWallCheck() {
         isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _ground);
@@ -126,8 +144,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnFrenzy() {
-       if (!health.TryReduce(health.frenzyCost)) return;
-        stamina.Frenzy();
+        //if (!_playerData.PowerUp[typeof(FrenzyState)]) return;
+        if (!health.Check(health.frenzyCost)) return;
+        _statemMachine.ChangeState(_statemMachine.frenzyState); 
     }
     #region input listeners
     private void OnJump(bool value) {
@@ -155,6 +174,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.SlideEvent += OnWallSlide;
         _inputReader.FrenzyEvent += OnFrenzy;
         _inputReader.DashCancelEvent += OnDashCancel;
+        _inputReader.InteractEvent += OnInteract;
     }
     private void OnDisable() {
         _inputReader.MoveEvent -= OnMove;
@@ -167,6 +187,7 @@ public class PlayerController : MonoBehaviour
         _inputReader.SlideEvent -= OnWallSlide;
         _inputReader.FrenzyEvent -= OnFrenzy;
         _inputReader.DashCancelEvent -= OnDashCancel;
+        _inputReader.InteractEvent -= OnInteract;
     }
 
     #endregion
