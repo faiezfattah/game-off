@@ -60,7 +60,7 @@ public class PlayerStateMachine : MonoBehaviour {
 
         // to wall grab family
         AddTransition(typeof(State), typeof(WallGrabState), () => _playerController.isWallGrabQueued);
-        AddTransition(typeof(State), typeof(WallSlideState), () => _playerController.isWallGrabQueued && _playerController.dirVertical !=0);
+        AddTransition(typeof(State), typeof(WallSlideState), () => _playerController.isWallGrabQueued && _playerController.dirVertical !=0 && (_playerData.Powers.Contains(typeof(WallGrabState)) || godMode));
 
         _currentState = idleState;
     }
@@ -111,9 +111,10 @@ public class PlayerStateMachine : MonoBehaviour {
         //Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
         _playerController.currentState = _currentState.ToString();
     }
+    public bool godMode = true;
     public bool CanTransitionTo(Type to) {
-        if (!_playerData.powerUp[to]) return false;
-        
+        if (!godMode && !_playerData.Powers.Contains(to) && to != typeof(WalkState) && to != typeof(IdleState) && to != typeof(FallState) && to != typeof(WallSlideState)) return false;
+
         if (transitionMatrix.TryGetValue(_currentState.GetType(), out var transitions)) {
             foreach (var (targetState, condition) in transitions) {
                 if (targetState == to && condition() && !_currentState.isUninterruptable) {

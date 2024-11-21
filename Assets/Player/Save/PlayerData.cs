@@ -11,36 +11,29 @@ public class PlayerData : ScriptableObject
     [Header("Save Data")]
     public int health = 3;
 
-    [Space(10)]
-    public Dictionary<Type, bool> powerUp = new();
-    public bool godMode = false;
+    /// <summary>
+    /// Always use try add on this array.
+    /// </summary>
 
-
-    private void OnEnable() {
-
-        #if UNITY_EDITOR
-            godMode = true;
-        #endif
-
-        if (powerUp.Count == 0) {
-
-            //defaults
-            powerUp[typeof(IdleState)] = true;
-            powerUp[typeof(WalkState)] = true;
-            powerUp[typeof(FallState)] = true;
-
-            //obtainable
-            powerUp[typeof(RunState)] = godMode;
-            powerUp[typeof(JumpState)] = godMode;
-            powerUp[typeof(DashState)] = godMode;
-            powerUp[typeof(WallGrabState)] = godMode;
-            powerUp[typeof(WallSlideState)] = godMode;
-            powerUp[typeof(FrenzyState)] = godMode;
-        }
-    }
+    public List<Type> Powers { private set; get; } = new();
 
     [Header("No-save Data")]
     public float stamina;
 
+    private void OnEnable() {
+        Powers.Clear();
+    }
+    public bool TryAddPower(PowerItem power) {
+        if (Powers.Count >= 3) return false;
+        if (Powers.Contains(power.GetPowerType())) return false;
+        Powers.Add(power.GetPowerType());
+        Debug.Log("added: " + power.ToString());
+
+        return true;
+    }
+    public void ReplacePower(PowerItem newPower, PowerItem oldPower) {
+        Powers.Remove(oldPower.GetPowerType());
+        Powers.Add(newPower.GetPowerType());
+    }
     //todo: implement rebuild
 }

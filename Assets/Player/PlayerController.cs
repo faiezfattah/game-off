@@ -144,7 +144,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnFrenzy() {
-        if (!_playerData.powerUp[typeof(FrenzyState)]) return;
+        //if (!_playerData.PowerUp[typeof(FrenzyState)]) return;
         if (!health.Check(health.frenzyCost)) return;
         _statemMachine.ChangeState(_statemMachine.frenzyState); 
     }

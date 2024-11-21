@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1678857279692074916, guid: c2e7f1d2688a24547b1889ff9f44926f, type: 3}
       propertyPath: type
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5202012604945146654, guid: c2e7f1d2688a24547b1889ff9f44926f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5622947921159747392, guid: c2e7f1d2688a24547b1889ff9f44926f, type: 3}
       propertyPath: m_Name
-      value: Pickable Item
+      value: Pickable Item 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

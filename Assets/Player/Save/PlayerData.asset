@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   health: 3
-  godMode: 1
-  stamina: 56.4815
+  stamina: 100
