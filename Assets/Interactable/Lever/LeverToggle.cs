@@ -17,11 +17,11 @@ public class LeverToggle : MonoBehaviour, IInteractable
             };
             _target.Add(item);
         }
+        Rotate();
     }
     public void Interact() {
         _isActive = !_isActive;
-        _leverBody.transform.rotation = Quaternion.Euler(0f, 0f, _isActive ? -45f : 45f);
-
+        Rotate();
         if (_object.Length <= 0) {
             Debug.LogError("Target object not set!");
             return;
@@ -30,5 +30,8 @@ public class LeverToggle : MonoBehaviour, IInteractable
         foreach (IToggleableTarget obj in _target) {
             obj.Toggle(_isActive);
         }
+    }
+    private void Rotate() {
+        _leverBody.transform.rotation = Quaternion.Euler(0f, 0f, _leverBody.transform.rotation.z + (_isActive ? -45 : 45));
     }
 }
