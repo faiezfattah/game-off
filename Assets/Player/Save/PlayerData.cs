@@ -10,6 +10,7 @@ public class PlayerData : ScriptableObject
     //this data need to be rebuild.
     [Header("Save Data")]
     public int health = 3;
+    public Vector3 checkPoint;
 
     /// <summary>
     /// Always use try add on this array.
@@ -19,7 +20,9 @@ public class PlayerData : ScriptableObject
 
     [Header("No-save Data")]
     public float stamina;
+    public Vector3 lastSafePlace;
 
+    //Function and utilites
     private void OnEnable() {
         Powers.Clear();
     }
