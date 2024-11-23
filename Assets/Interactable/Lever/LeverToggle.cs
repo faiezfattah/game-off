@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class LeverToggle : MonoBehaviour, IInteractable
 {
-    private bool _isActive = false;
-    private GameObject _leverBody;
+    private bool _isActive;
 
-    public GameObject[] _object;
-    private List<IToggleableTarget> _target = new List<IToggleableTarget>();
+    [SerializeField] private GameObject pivot;
+    [SerializeField] private GameObject[] _object;
+    private readonly List<IToggleableTarget> _target = new List<IToggleableTarget>();
 
     private void Start() {
-        _leverBody = gameObject;
         foreach (var obj in _object) {
             if (!obj.TryGetComponent<IToggleableTarget>(out var item)) {
                 Debug.Log("an item is incompatible! Make sure it is toggleable");
@@ -27,11 +26,11 @@ public class LeverToggle : MonoBehaviour, IInteractable
             return;
         }
 
-        foreach (IToggleableTarget obj in _target) {
+        foreach (var obj in _target) {
             obj.Toggle(_isActive);
         }
     }
     private void Rotate() {
-        _leverBody.transform.rotation = Quaternion.Euler(0f, 0f, _leverBody.transform.rotation.z + (_isActive ? -45 : 45));
+        pivot.transform.rotation = Quaternion.Euler(0f, 0f, pivot.transform.rotation.z + (_isActive ? 45 : 0));
     }
 }

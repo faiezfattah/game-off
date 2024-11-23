@@ -3,11 +3,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class DashState : State {
+    private float     _duration;
+    private Vector2   _centerPos;
+    public  Vector2   dir;
+    private SfxParams sfxEnter;
+    private SfxParams sfxExit;
+    private string    _enterId = "DASH_ENTER";
+    private string    _exitId = "DASH_EXIT";
     public DashState(PlayerStateMachine stateMachine, PlayerController playerController) : base(stateMachine, playerController) {
+        sfxEnter = new SfxParams(playerController.playerAudio.dashIn).WithId(_enterId);
+        sfxExit = new SfxParams(playerController.playerAudio.dashOut).WithId(_exitId);
     }
-    private float _duration;
-    private Vector2 _centerPos;
-    public Vector2 dir;
     public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
         if(!playerController.stamina.Check(playerController.settings.dashCost)) return;
@@ -15,7 +21,7 @@ public class DashState : State {
         _duration = 0f;
         _centerPos = playerController.mousePos;
         playerController.rb.linearVelocity = new Vector3(0, 0, 0);
-
+        playerController.playerAudio.Play(sfxEnter);
     }
     public override void Update() {
         if (!playerController.isDashPressed) return;
@@ -33,6 +39,8 @@ public class DashState : State {
         Vector3 dash = new Vector3(dir.x * playerController.settings.dashForce, dir.y * playerController.settings.dashForce, 0);
         playerController.rb.AddForce(dash, ForceMode.Force);
 
+        playerController.playerAudio.Play(sfxExit);
+        
         if (_duration > playerController.settings.dashDuration) {
             isUninterruptable = false;
         }
