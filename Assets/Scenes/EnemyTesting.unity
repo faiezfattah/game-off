@@ -8522,6 +8522,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1772211549}
     - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
+      propertyPath: godMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
       propertyPath: _playerData
       value: 
       objectReference: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}

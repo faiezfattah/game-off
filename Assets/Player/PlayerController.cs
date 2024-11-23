@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GameObject _rotatingContainer;
     [SerializeField] private GameObject _wallCheck;
-    [SerializeField] private LayerMask _ground;
+    [SerializeField] private LayerMask _walkableLayer;
     [SerializeField] private PlayerData _playerData;
     [SerializeField] private PlayerStateMachine _statemMachine;
 
@@ -59,6 +59,9 @@ public class PlayerController : MonoBehaviour
     public bool isWallGrabQueued;
 
     [Space(10)]
+    public bool isSafe;
+
+    [Space(10)]
     [SerializeField] private float radius = 2f;
 
     private float playerHalfHeight = 0.5f;
@@ -70,7 +73,7 @@ public class PlayerController : MonoBehaviour
         playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
         if (!rb) rb = GetComponent<Rigidbody>();
         if (!visual) visual = GetComponent<PlayerVisualizer>();
-        if (_ground == 0) _ground = LayerMask.GetMask("Ground");
+        if (_walkableLayer == 0) _walkableLayer = LayerMask.GetMask("Ground");
         _linearVelocity = rb.linearVelocity;
     }
     void Update() {
@@ -79,6 +82,7 @@ public class PlayerController : MonoBehaviour
         }
 
         GroundWallCheck();
+        UpdateSafePlace();
         WallGrabCheck();
         JumpCheck();
         RunCheck();
@@ -98,10 +102,33 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, radius);
     }
     private void GroundWallCheck() {
-        isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _ground);
-        //isGrounded = Physics.CheckBox(transform.position + Vector3.down * playerHalfHeight, new Vector3(1, groundCheckRadius, 1), Quaternion.identity, _ground);
+        //isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _walkableLayer);
+
+        isGrounded = Physics.CheckBox(
+            transform.position + Vector3.down * playerHalfHeight,
+            Vector3.one * groundCheckRadius,
+            Quaternion.identity,
+            _walkableLayer
+        );
+
         visual.radius = wallCheckRadius;
-        isWalled = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _ground);
+        isWalled = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _walkableLayer);
+    }
+
+    private void UpdateSafePlace() {
+        Collider[] hit = Physics.OverlapBox(
+            transform.position + Vector3.down * playerHalfHeight,
+            Vector3.one * groundCheckRadius,
+            Quaternion.identity,
+            _walkableLayer
+        );
+
+        foreach (var hitCollider in hit) {
+            isSafe = !hitCollider.CompareTag("Unsafe");
+        }
+        if (isGrounded && isSafe) {
+            _playerData.lastSafePlace = transform.position;
+        }
     }
     private void WallGrabCheck() {
         isWallGrabQueued = isWalled && isWallGrabbedPressed && stamina.Check(settings.wallSlideRateCost * Time.deltaTime);
@@ -142,7 +169,13 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Particle HIT " + collider.name);
     }
+    //private void OnDrawGizmos() {
+    //    Gizmos.color = Color.cyan;
 
+    //    Vector3 center = transform.position + Vector3.down * playerHalfHeight;
+    //    Vector3 size = new Vector3(groundCheckRadius * 2, groundCheckRadius * 2, groundCheckRadius * 2);
+    //    Gizmos.DrawWireCube(center, size);
+    //}
     private void OnFrenzy() {
         //if (!_playerData.PowerUp[typeof(FrenzyState)]) return;
         if (!health.Check(health.frenzyCost)) return;
