@@ -21,7 +21,7 @@ public class PlayerMovementSettings : ScriptableObject
     [Space(10)]
     public float fallForce = -150f;
     public float fallSlowForce = -50f;
-    public float airControl = 2f;
+    public float airControl = 1.5f;
 
     [Header("Stamina Settings")]
     public float maxStamina = 100;

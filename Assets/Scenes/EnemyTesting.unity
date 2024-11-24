@@ -7378,6 +7378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headPivotTransform: {fileID: 515306476}
+  idleRotationDuration: 0.5
 --- !u!65 &1132108703
 BoxCollider:
   m_ObjectHideFlags: 0
