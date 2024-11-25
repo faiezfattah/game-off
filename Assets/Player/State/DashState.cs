@@ -22,6 +22,8 @@ public class DashState : State {
         _centerPos = playerController.mousePos;
         playerController.rb.linearVelocity = new Vector3(0, 0, 0);
         playerController.playerAudio.Play(sfxEnter);
+        Time.timeScale      = 0.3f;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
     public override void Update() {
         if (!playerController.isDashPressed) return;
@@ -47,6 +49,8 @@ public class DashState : State {
         else if (playerController.isJumpQueued || playerController.isWallGrabQueued) {
             isUninterruptable = false;
         }
+        Time.timeScale      = 1;
+        Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
     public override void Exit() {
         //if (playerController.isJumpQueued) return;
