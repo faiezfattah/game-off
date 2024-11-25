@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    abstract public void Interact();
+    public abstract void Interact();
 }

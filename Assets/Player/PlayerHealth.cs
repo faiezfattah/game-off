@@ -9,9 +9,11 @@ public class PlayerHealth : MonoBehaviour
 
     public int frenzyCost = 1;
 
-    private Coroutine zeroHealth;
-    void Start()
-    {
+    private Coroutine   zeroHealth;
+    private IEnumerator _zeroHealthRoutine;
+
+    void Start() {
+        _zeroHealthRoutine  = ZeroHealthCoroutine();
         _data.health = maxHealth;
     }
 
@@ -29,16 +31,12 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TeleportToSafe() {
         Vector3 loc = _data.lastSafePlace;
-
-        if (loc == null) loc = _data.checkPoint;
-        if (_data.checkPoint == null) { Debug.Log("Checkpoint and Last Safe Place missing"); return; }
-
         gameObject.transform.position = loc;
     }
     private void ZeroHealth() {
         if (zeroHealth == null) return;
 
-        zeroHealth = StartCoroutine(ZeroHealthCoroutine());
+        zeroHealth = StartCoroutine(_zeroHealthRoutine);
     }
     private IEnumerator ZeroHealthCoroutine() {
         float timer = 0;
@@ -48,6 +46,7 @@ public class PlayerHealth : MonoBehaviour
             yield return null;
         }
         zeroHealth = null;
+        Die();
     }
     private void ZeroHealthCheck() {
         if (_data.health > 0) {

@@ -1,10 +1,15 @@
 using UnityEngine;
 
 public class JumpState : State {
+    
+    private         float     _duration;
+    public override bool      isUninterruptable { get; protected set; }
+    private         SfxParams sfx;
+    private         string    _id = "JUMP";
     public JumpState(PlayerStateMachine stateMachine, PlayerController playerController) : base(stateMachine, playerController) {
+        sfx = new SfxParams(playerController.playerAudio.jumpSfx)
+            .WithId(_id);
     }
-    private float _duration;
-    public override bool isUninterruptable { get; protected set; }
     public override void Enter() {
         //if (playerController.isWallGrabQueued) {
         //    playerController.rb.AddForce(new Vector3(playerController.settings.jumpForce * playerController.dirHorizontal, playerController.settings.jumpForce, 0), ForceMode.Impulse);
@@ -13,6 +18,7 @@ public class JumpState : State {
         playerController.rb.AddForce(new Vector3(0, playerController.settings.jumpForce, 0), ForceMode.Impulse);
         //Debug.Log("jumping");
         isUninterruptable = true;
+        playerController.playerAudio.Play(sfx);
     }
     public override void FixedUpdate() {
         _duration += Time.deltaTime;
@@ -33,5 +39,6 @@ public class JumpState : State {
     public override void Exit() {
         _duration = 0f;
         playerController.rb.linearVelocity -= new Vector3(0, 0, 0);
+        playerController.playerAudio.Stop(_id);
     }
 }

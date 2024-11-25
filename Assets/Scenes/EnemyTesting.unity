@@ -7378,6 +7378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   headPivotTransform: {fileID: 515306476}
+  idleRotationDuration: 0.5
 --- !u!65 &1132108703
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8521,6 +8522,10 @@ PrefabInstance:
       propertyPath: _statemMachine
       value: 
       objectReference: {fileID: 1772211549}
+    - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
+      propertyPath: godMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
       propertyPath: _playerData
       value: 

@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     public PlayerStamina stamina;
     public PlayerHealth health;
     public PlayerMovementSettings settings;
+    public PlayerAudio playerAudio;
 
     [Header("Movement QoL")]
     public float coyoteTime = 0.5f;
