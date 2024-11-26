@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour {
@@ -112,7 +111,8 @@ public class PlayerStateMachine : MonoBehaviour {
         _playerController.currentState = _currentState.ToString();
     }
     public bool godMode = true;
-    public bool CanTransitionTo(Type to) {
+
+    private bool CanTransitionTo(Type to) {
         if (!godMode && !_playerData.Powers.Contains(to) && to != typeof(WalkState) && to != typeof(IdleState) && to != typeof(FallState) && to != typeof(WallSlideState)) return false;
 
         if (transitionMatrix.TryGetValue(_currentState.GetType(), out var transitions)) {
