@@ -15,7 +15,7 @@ public class MovingPlatform : MonoBehaviour, IToggleableTarget
     private int _currentIndex = 1;
     private int _nextIndex;
 
-    protected bool isActive = false;
+    private bool isActive = false;
     private void Start() {
         _positions.Add(transform.position);
 
@@ -32,9 +32,7 @@ public class MovingPlatform : MonoBehaviour, IToggleableTarget
         _tween = _objectToMove.transform.DOMove(_positions[_currentIndex], _timeToMove)
             .SetEase(Ease.InOutQuad)
             .SetAutoKill(false)
-            .OnComplete(() => {
-                HandleComplete();
-            });
+            .OnComplete(HandleComplete);
     }
     private void HandleComplete() {
         _currentIndex = _nextIndex;
@@ -59,6 +57,6 @@ public class MovingPlatform : MonoBehaviour, IToggleableTarget
         _tween?.Play();
     }
     public void OnDisable() {
-        _tween?.Pause();
+        _tween?.Kill();
     }
 }

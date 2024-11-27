@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 1630808534626767432}
   - component: {fileID: 8554417257046428308}
   - component: {fileID: 9002942795754006565}
+  - component: {fileID: 5801451490402131659}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -223,14 +224,17 @@ MonoBehaviour:
   _inputReader: {fileID: 11400000, guid: 77d1ac31fe6916f4f9960a4f733e8713, type: 2}
   _rotatingContainer: {fileID: 1836949848496758266}
   _wallCheck: {fileID: 2935692173842452506}
-  _ground:
+  _walkableLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72
+  _playerData: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
+  _statemMachine: {fileID: 6333893775765803471}
   visual: {fileID: 1630808534626767432}
   rb: {fileID: 1777988520142432766}
   stamina: {fileID: 8554417257046428308}
   health: {fileID: 9002942795754006565}
   settings: {fileID: 11400000, guid: 630b1efede3b798469720c439aedd196, type: 2}
+  playerAudio: {fileID: 5801451490402131659}
   coyoteTime: 0.3
   groundCheckRadius: 0.3
   wallCheckRadius: 0.5
@@ -253,6 +257,7 @@ MonoBehaviour:
   isWalled: 0
   isWallGrabbedPressed: 0
   isWallGrabQueued: 0
+  isSafe: 0
   radius: 2
 --- !u!114 &6333893775765803471
 MonoBehaviour:
@@ -267,6 +272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerController: {fileID: 2486585737090102553}
+  _playerData: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
+  godMode: 1
 --- !u!114 &1630808534626767432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +318,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _data: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
   maxHealth: 3
+  zeroHealthTimer: 3
   frenzyCost: 1
+--- !u!114 &5801451490402131659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965780641305509804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697f70c65eb1ec742bad35ea13c4a853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relay: {fileID: 11400000, guid: 1630c6d8734d0164993c4de64bdd2064, type: 2}
+  walkSfx: {fileID: 8300000, guid: 88494107129c1d04094c3975f1e61acd, type: 3}
+  jumpSfx: {fileID: 8300000, guid: b11146f413b0e9a4dbb44e8a420aed01, type: 3}
+  runSfx: {fileID: 8300000, guid: 61b9957ac397e5640ac26dfa59ca934c, type: 3}
+  dashIn: {fileID: 8300000, guid: 1fe11b0eb807924449232b9756644df0, type: 3}
+  dashOut: {fileID: 8300000, guid: 14e4110fbbbb4174c8d6d62d9636110e, type: 3}
+  wallSlide: {fileID: 8300000, guid: 54859cfbeba70f3419be0f6c4415b589, type: 3}
+  frenzy: {fileID: 8300000, guid: 20b84be22bcd4f34ea0f362f11e207b0, type: 3}
+  land: {fileID: 8300000, guid: 4311ab9dc6562ee4bb71773e66a281a0, type: 3}
 --- !u!1 &7838471365807367000
 GameObject:
   m_ObjectHideFlags: 0

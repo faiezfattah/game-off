@@ -1900,17 +1900,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 134757893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &792680211 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-  m_PrefabInstance: {fileID: 974715900}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061100906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f077fe9d888eae46ba8efa03290c277, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2132,34 +2121,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: radius
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: _playerData
-      value: 
-      objectReference: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
-    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: playerAudio
-      value: 
-      objectReference: {fileID: 2061100907}
-    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: _ground.m_Bits
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2486585737090102553, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: _statemMachine
-      value: 
-      objectReference: {fileID: 792680211}
-    - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: godMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6333893775765803471, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      propertyPath: _playerData
-      value: 
-      objectReference: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
     - target: {fileID: 6965780641305509804, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2167,10 +2128,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6965780641305509804, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2061100907}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
 --- !u!1 &1020540016
 GameObject:
@@ -3681,32 +3639,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036486562}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2061100906 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6965780641305509804, guid: 0c5c261e27c523e4eb42e5e895b28e06, type: 3}
-  m_PrefabInstance: {fileID: 974715900}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2061100907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2061100906}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697f70c65eb1ec742bad35ea13c4a853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  relay: {fileID: 11400000, guid: 1630c6d8734d0164993c4de64bdd2064, type: 2}
-  walkSfx: {fileID: 8300000, guid: 88494107129c1d04094c3975f1e61acd, type: 3}
-  jumpSfx: {fileID: 8300000, guid: b11146f413b0e9a4dbb44e8a420aed01, type: 3}
-  runSfx: {fileID: 8300000, guid: 61b9957ac397e5640ac26dfa59ca934c, type: 3}
-  dashIn: {fileID: 8300000, guid: 1fe11b0eb807924449232b9756644df0, type: 3}
-  dashOut: {fileID: 8300000, guid: 14e4110fbbbb4174c8d6d62d9636110e, type: 3}
-  wallSlide: {fileID: 8300000, guid: 54859cfbeba70f3419be0f6c4415b589, type: 3}
-  frenzy: {fileID: 8300000, guid: 20b84be22bcd4f34ea0f362f11e207b0, type: 3}
-  land: {fileID: 8300000, guid: 4311ab9dc6562ee4bb71773e66a281a0, type: 3}
 --- !u!1 &2076786388
 GameObject:
   m_ObjectHideFlags: 0
