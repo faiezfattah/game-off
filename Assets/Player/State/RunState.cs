@@ -12,6 +12,7 @@ public class RunState : State {
 
     public override void Enter() {
         playerController.playerAudio.Play(sfx, true);
+        playerController.animator.Play("Run");
     }
 
     public override void FixedUpdate() {

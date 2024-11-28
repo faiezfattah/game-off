@@ -1,5 +1,6 @@
-using System.Text;
-using Unity.VisualScripting;
+using System;
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class DashState : State {
@@ -9,7 +10,8 @@ public class DashState : State {
     private SfxParams sfxEnter;
     private SfxParams sfxExit;
     private string    _enterId = "DASH_ENTER";
-    private string    _exitId = "DASH_EXIT";
+    private string    _exitId  = "DASH_EXIT";
+    private Action    _playAnim;
     public DashState(PlayerStateMachine stateMachine, PlayerController playerController) : base(stateMachine, playerController) {
         sfxEnter = new SfxParams(playerController.playerAudio.dashIn).WithId(_enterId);
         sfxExit = new SfxParams(playerController.playerAudio.dashOut).WithId(_exitId);
@@ -42,6 +44,11 @@ public class DashState : State {
         playerController.rb.AddForce(dash, ForceMode.Force);
 
         playerController.playerAudio.Play(sfxExit);
+
+        if (_playAnim == null) {
+            _playAnim = PlayAnim;
+            _playAnim.Invoke();
+        }
         
         if (_duration > playerController.settings.dashDuration) {
             isUninterruptable = false;
@@ -52,6 +59,11 @@ public class DashState : State {
         Time.timeScale      = 1;
         Time.fixedDeltaTime = 0.02f * Time.timeScale;
     }
+
+    private void PlayAnim() {
+        playerController.animator.Play("Dash");
+    }
+
     public override void Exit() {
         //if (playerController.isJumpQueued) return;
         //if (!playerController.isDashCanceled && !playerController.stamina.TryReduce(playerController.settings.dashCost)) return;
@@ -59,5 +71,7 @@ public class DashState : State {
         if (!playerController.isDashCanceled) playerController.stamina.TryReduce(playerController.settings.dashCost);
         playerController.visual.DisableDashingLine();
         playerController.rb.linearVelocity = playerController.rb.linearVelocity * playerController.settings.dashVelocityRetention;
+        playerController.playerAudio.Play(sfxExit);
+        _playAnim = null;
     }
 }
