@@ -18,7 +18,9 @@ public class JumpState : State {
         playerController.rb.AddForce(new Vector3(0, playerController.settings.jumpForce, 0), ForceMode.Impulse);
         //Debug.Log("jumping");
         isUninterruptable = true;
+        
         playerController.playerAudio.Play(sfx);
+        playerController.animator.Play("Jump");
     }
     public override void FixedUpdate() {
         _duration += Time.deltaTime;

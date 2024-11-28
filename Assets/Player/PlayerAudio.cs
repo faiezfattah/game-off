@@ -16,7 +16,6 @@ public class PlayerAudio : MonoBehaviour {
     public void Play(SfxParams sfx) {
         relay.PlaySfx(sfx);
     }
-
     public void Play(SfxParams sfx, bool loop) {
         if (!loop) {
             Play(sfx);

@@ -9,6 +9,7 @@ public class WallGrabState : State
         isUninterruptable = true;
         playerController.rb.useGravity = false;
         playerController.rb.linearVelocity = Vector3.zero;
+        playerController.animator.Play("Wall Grab");
     }
     public override void Update() {
         if (playerController.dirVertical != 0 || playerController.isJumpQueued || !playerController.isWallGrabQueued ||  !playerController.stamina.TryReduce(playerController.settings.wallGrabRateCost * Time.deltaTime)) {

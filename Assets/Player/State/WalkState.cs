@@ -12,8 +12,8 @@ public class WalkState : State {
             .WithId(_id);
     }
     public override void Enter() {
-        
         playerController.playerAudio.Play(_sfx, true);
+        playerController.animator.Play("Walk");
     }
 
     public override void FixedUpdate() {
