@@ -1,27 +1,34 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerController : MonoBehaviour {
+    [FormerlySerializedAs("_inputReader")]
     [Header("Private Reference")]
     [SerializeField]
-    private InputReader _inputReader;
+    private InputReader inputReader;
 
+    [FormerlySerializedAs("_rotatingContainer")]
     [SerializeField]
-    private GameObject _rotatingContainer;
+    private GameObject rotatingContainer;
 
+    [FormerlySerializedAs("_wallCheck")]
     [SerializeField]
-    private GameObject _wallCheck;
+    private GameObject wallCheck;
 
+    [FormerlySerializedAs("_walkableLayer")]
     [SerializeField]
-    private LayerMask _walkableLayer;
+    private LayerMask walkableLayer;
 
+    [FormerlySerializedAs("_playerData")]
     [SerializeField]
-    private PlayerData _playerData;
+    private PlayerData playerData;
 
+    [FormerlySerializedAs("_statemMachine")]
     [SerializeField]
-    private PlayerStateMachine _statemMachine;
+    private PlayerStateMachine statemMachine;
 
     [Header("Public Reference")]
     public PlayerVisualizer visual;
@@ -32,7 +39,6 @@ public class PlayerController : MonoBehaviour {
     public PlayerMovementSettings settings;
     public PlayerAudio            playerAudio;
     public Animator               animator;
-    public SpriteRenderer         sprite;
 
     [Header("Movement QoL")]
     public float coyoteTime = 0.5f;
@@ -85,26 +91,27 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private float radius = 2f;
 
-    private float   playerHalfHeight = 0.5f;
-    private Vector3 _linearVelocity;
-    private float   _coyoteTimer;
-    private float   _jumpBufferTimer;
-    private float   _dashTimer;
+    private float     _playerHalfHeight = 0.5f;
+    private Vector3   _linearVelocity;
+    private float     _coyoteTimer;
+    private float     _jumpBufferTimer;
+    private float     _dashTimer;
+    private SpriteRenderer _sprite;
 
-    void Start() {
-        playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
-        if (_walkableLayer == 0) _walkableLayer = LayerMask.GetMask("Ground");
-        if (!rb) rb                             = GetComponent<Rigidbody>();
-        if (!visual) visual                     = GetComponent<PlayerVisualizer>();
-        if (!animator) animator                 = GetComponent<Animator>();
-        if (!sprite) sprite                     = GetComponent<SpriteRenderer>();
+    private void Start() {
+        _playerHalfHeight = GetComponent<CapsuleCollider>().height / 2;
+        if (walkableLayer == 0) walkableLayer = LayerMask.GetMask("Ground");
+        if (!rb) rb                           = GetComponent<Rigidbody>();
+        if (!visual) visual                   = GetComponent<PlayerVisualizer>();
+        if (!animator) animator               = GetComponent<Animator>();
+        if (!_sprite) _sprite           = GetComponent<SpriteRenderer>();
         _linearVelocity = rb.linearVelocity;
     }
 
-    void Update() {
+    private void Update() {
         if (dirHorizontal != 0) {
-            _rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3(0, dirHorizontal > 0 ? 0 : 180f, 0));
-            sprite.flipX                          = dirHorizontal > 0;
+            rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3(0, dirHorizontal > 0 ? 0 : 180f, 0));
+            _sprite.flipX = dirHorizontal < 0;
         }
 
 
@@ -117,13 +124,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnInteract() {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        var hitColliders = new Collider[] { };
+        var size         = Physics.OverlapSphereNonAlloc(transform.position, radius, hitColliders);
 
         foreach (var hitCollider in hitColliders) {
-            if (hitCollider.TryGetComponent<IInteractable>(out var interactable)) {
-                interactable.Interact();
-                return; // break the foreach loop on the first success
-            }
+            if (!hitCollider.TryGetComponent<IInteractable>(out var interactable)) continue;
+            interactable.Interact();
+            return; // break the foreach loop on the first success
         }
     }
 
@@ -135,30 +142,27 @@ public class PlayerController : MonoBehaviour {
         //isGrounded = Physics.CheckSphere(transform.position + Vector3.down * playerHalfHeight, groundCheckRadius, _walkableLayer);
 
         isGrounded = Physics.CheckBox(
-            transform.position + Vector3.down * playerHalfHeight,
+            transform.position + Vector3.down * _playerHalfHeight,
             Vector3.one * groundCheckRadius,
             Quaternion.identity,
-            _walkableLayer
+            walkableLayer
         );
 
         visual.radius = wallCheckRadius;
-        isWalled      = Physics.CheckSphere(_wallCheck.transform.position, wallCheckRadius, _walkableLayer);
+        isWalled      = Physics.CheckSphere(wallCheck.transform.position, wallCheckRadius, walkableLayer);
     }
 
     private void UpdateSafePlace() {
-        Collider[] hit = Physics.OverlapBox(
-            transform.position + Vector3.down * playerHalfHeight,
-            Vector3.one * groundCheckRadius,
-            Quaternion.identity,
-            _walkableLayer
-        );
+        var hit = new Collider[] { };
+        var size = Physics.OverlapBoxNonAlloc(transform.position + Vector3.down * _playerHalfHeight,
+            Vector3.one * groundCheckRadius, hit, Quaternion.identity, walkableLayer);
 
         foreach (var hitCollider in hit) {
             isSafe = !hitCollider.CompareTag("Unsafe");
         }
 
         if (isGrounded && isSafe) {
-            _playerData.lastSafePlace = transform.position;
+            playerData.lastSafePlace = transform.position;
         }
     }
 
@@ -203,8 +207,8 @@ public class PlayerController : MonoBehaviour {
         //if (isDashQueued) Debug.Log(isDashQueued);
     }
 
-    void OnTriggerEnter(Collider collider) {
-        Debug.Log("Particle HIT " + collider.name);
+    void OnTriggerEnter(Collider contextCollider) {
+        Debug.Log("Particle HIT " + contextCollider.name);
     }
     //private void OnDrawGizmos() {
     //    Gizmos.color = Color.cyan;
@@ -216,7 +220,7 @@ public class PlayerController : MonoBehaviour {
     private void OnFrenzy() {
         //if (!_playerData.PowerUp[typeof(FrenzyState)]) return;
         if (!health.Check(health.frenzyCost)) return;
-        _statemMachine.ChangeState(_statemMachine.frenzyState);
+        statemMachine.ChangeState(statemMachine.frenzyState);
     }
 
     #region input listeners
@@ -242,31 +246,31 @@ public class PlayerController : MonoBehaviour {
     private void OnDashCancel(bool     value) => isDashCanceled = value;
 
     private void OnEnable() {
-        _inputReader.MoveEvent          += OnMove;
-        _inputReader.JumpEvent          += OnJump;
-        _inputReader.DashStartEvent     += OnDash;
-        _inputReader.RunEvent           += OnRun;
-        _inputReader.MousePositionEvent += MousePosition;
-        _inputReader.DashAimEvent       += OnDashAim;
-        _inputReader.WallGrabEvent      += OnWallGrab;
-        _inputReader.SlideEvent         += OnWallSlide;
-        _inputReader.FrenzyEvent        += OnFrenzy;
-        _inputReader.DashCancelEvent    += OnDashCancel;
-        _inputReader.InteractEvent      += OnInteract;
+        inputReader.MoveEvent          += OnMove;
+        inputReader.JumpEvent          += OnJump;
+        inputReader.DashStartEvent     += OnDash;
+        inputReader.RunEvent           += OnRun;
+        inputReader.MousePositionEvent += MousePosition;
+        inputReader.DashAimEvent       += OnDashAim;
+        inputReader.WallGrabEvent      += OnWallGrab;
+        inputReader.SlideEvent         += OnWallSlide;
+        inputReader.FrenzyEvent        += OnFrenzy;
+        inputReader.DashCancelEvent    += OnDashCancel;
+        inputReader.InteractEvent      += OnInteract;
     }
 
     private void OnDisable() {
-        _inputReader.MoveEvent          -= OnMove;
-        _inputReader.JumpEvent          -= OnJump;
-        _inputReader.DashStartEvent     -= OnDash;
-        _inputReader.RunEvent           -= OnRun;
-        _inputReader.MousePositionEvent -= MousePosition;
-        _inputReader.DashAimEvent       -= OnDashAim;
-        _inputReader.WallGrabEvent      -= OnWallGrab;
-        _inputReader.SlideEvent         -= OnWallSlide;
-        _inputReader.FrenzyEvent        -= OnFrenzy;
-        _inputReader.DashCancelEvent    -= OnDashCancel;
-        _inputReader.InteractEvent      -= OnInteract;
+        inputReader.MoveEvent          -= OnMove;
+        inputReader.JumpEvent          -= OnJump;
+        inputReader.DashStartEvent     -= OnDash;
+        inputReader.RunEvent           -= OnRun;
+        inputReader.MousePositionEvent -= MousePosition;
+        inputReader.DashAimEvent       -= OnDashAim;
+        inputReader.WallGrabEvent      -= OnWallGrab;
+        inputReader.SlideEvent         -= OnWallSlide;
+        inputReader.FrenzyEvent        -= OnFrenzy;
+        inputReader.DashCancelEvent    -= OnDashCancel;
+        inputReader.InteractEvent      -= OnInteract;
     }
 
     #endregion

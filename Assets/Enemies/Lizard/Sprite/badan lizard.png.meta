@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 7425cd855d22a8a4aaa95615a958520a
+guid: f2a3ff4523d49124285eecd047a08b07
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -37,13 +37,13 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
+    wrapU: 1
+    wrapV: 1
     wrapW: 0
-  nPOTScale: 1
+  nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 0
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -52,9 +52,9 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 0
+  alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -95,12 +95,34 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: badan lizard_17
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 472
+        width: 609
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 748b705ad50024242bfd677dc0a91d90
+      internalID: -504978432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e3a8b1944e6fccb46af773cdad3882ea
     internalID: 0
     vertices: []
     indices: 
@@ -109,7 +131,28 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      badan lizard_0: -600478785
+      badan lizard_1: 1223014864
+      badan lizard_10: -639299540
+      badan lizard_11: 873542009
+      badan lizard_12: 1119247672
+      badan lizard_13: -701188283
+      badan lizard_14: 1872096417
+      badan lizard_15: -1873355867
+      badan lizard_16: -1210876474
+      badan lizard_17: -504978432
+      badan lizard_18: -1783844916
+      badan lizard_19: 317603328
+      badan lizard_2: -1983065285
+      badan lizard_20: 722867657
+      badan lizard_3: -1002582158
+      badan lizard_4: -1008435853
+      badan lizard_5: -1496837385
+      badan lizard_6: -720706867
+      badan lizard_7: 677342584
+      badan lizard_8: 946917202
+      badan lizard_9: -886588287
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
