@@ -1,11 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "PlayerMovementSettings", menuName = "Player/MovementSettings")]
-public class PlayerMovementSettings : ScriptableObject
-{
+public class PlayerMovementSettings : ScriptableObject {
     [Header("Movement")]
-    public float walkSpeed = 1f;
-    public float runSpeed = 2.5f;
+    public float initialWalkspeed = 1f;
+
+    public float initialRunSpeed = 2f;
+    public float walkSpeed => initialWalkspeed / speedModifier;
+
+    public float runSpeed => initialRunSpeed / speedModifier;
 
     [Space(10)]
     public float dashForce = 500;
@@ -35,5 +39,9 @@ public class PlayerMovementSettings : ScriptableObject
     public float wallGrabRateCost = 5f;
     public float wallSlideRateCost = 10f;
     public float airControlRateCost = 50f;
+    
+    [Header("Modifier")]
+    public float initialSpeedModifier = 1;
+    public float speedModifier = 1;
 
 }

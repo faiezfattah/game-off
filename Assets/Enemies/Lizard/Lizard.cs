@@ -1,24 +1,45 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Lizard : MonoBehaviour
-{
+public class Lizard : MonoBehaviour {
     [SerializeField]
     private Transform headPivotTransform;
-    [SerializeField] private float idleRotationDuration = 0.5f;
+
+    [SerializeField]
+    private float idleRotationDuration = 0.5f;
+
+    [SerializeField]
+    float SlowDownDuration = 1f;
+
+    [SerializeField]
+    private float distance = 5f;
+
+    [SerializeField]
+    private Sprite idleSprite;
+
+    [SerializeField]
+    private Sprite attackSprite;
+
+    [SerializeField]
+    private float attackCooldown = 1;
+
+    [SerializeField]
+    private SpriteRenderer head;
 
     private static Transform _playerTransform;
-    private Tweener _currentTween;
+    private        Tweener   _currentTween;
+    private        Coroutine _routine;
+    private Coroutine _slowRoutine;
 
-    private void Awake()
-    {
+    private void Awake() {
         Assert.IsNotNull(headPivotTransform);
 
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         RotateIdle();
     }
-    
+
     // private void Update()
     // {
     //     
@@ -45,33 +66,70 @@ public class Lizard : MonoBehaviour
         // float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
         // targetAngle = Mathf.Clamp(targetAngle, -90f, 90f);
         Quaternion targetRotation = Quaternion.AngleAxis(headPivotTransform.rotation.z + 180f, Vector3.forward);
-        
+
         _currentTween?.Kill();
-        
+        if (_routine != null) {
+            StopCoroutine(_routine);
+            _routine = null;
+        }
+
         _currentTween = headPivotTransform.DORotateQuaternion(targetRotation, idleRotationDuration)
-                          .SetEase(Ease.Linear)
-                          .SetLoops(-1, LoopType.Yoyo);
+                                          .SetEase(Ease.Linear)
+                                          .SetLoops(-1, LoopType.Yoyo);
     }
+
     private void RotateToPlayer() {
         Vector3 directionToPlayer = (_playerTransform.position - headPivotTransform.position).normalized;
-        float targetAngle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+        float   targetAngle       = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
         targetAngle = Mathf.Clamp(targetAngle, -180, 0f);
         Quaternion targetRotation = Quaternion.AngleAxis(targetAngle, Vector3.forward);
-        
+
         _currentTween?.Kill();
 
         _currentTween = headPivotTransform.DORotateQuaternion(targetRotation, 0.1f)
-                                            .SetEase(Ease.Linear);
+                                          .SetEase(Ease.Linear);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            RotateToPlayer();
+
+    private IEnumerator Attack() {
+        RotateToPlayer();
+
+        head.sprite = attackSprite;
+        Cast();
+        yield return new WaitForSeconds(0.5f);
+        head.sprite = idleSprite;
+
+        yield return new WaitForSeconds(attackCooldown);
+
+        _routine = null;
     }
 
-    private void OnTriggerExit(Collider other)
-    {
+    private void Cast() {
+        if (!Physics.Raycast(headPivotTransform.position, headPivotTransform.forward, out var hit, distance,
+                LayerMask.GetMask("Player"))) return;
+        if (hit.collider && hit.collider.CompareTag("Player")) {
+            if (!hit.collider.TryGetComponent<PlayerController>(out var player)) return;
+            if (_slowRoutine != null) {
+                StopCoroutine(_slowRoutine);
+            }
+            _slowRoutine = StartCoroutine(ApplySlow(player));
+        }
+    }
+
+    private IEnumerator ApplySlow(PlayerController player) {
+        var initialSpeed = player.settings.initialSpeedModifier;
+        if (!Mathf.Approximately(player.settings.speedModifier, initialSpeed)) {
+            player.settings.speedModifier /= 0.5f;
+        }
+        yield return new WaitForSeconds(SlowDownDuration);
+        player.settings.speedModifier = initialSpeed;
+    }
+    private void OnTriggerStay(Collider other) {
+        if (other.CompareTag("Player") && _routine == null)
+            _routine = StartCoroutine(Attack());
+    }
+
+    private void OnTriggerExit(Collider other) {
         if (other.CompareTag("Player"))
             RotateIdle();
     }
