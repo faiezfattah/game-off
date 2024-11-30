@@ -1,0 +1,14 @@
+#root {
+	align-items: flex-end;
+	justify-content: center;
+}
+
+#MenuControls {
+	align-items: center;
+	justify-content: center;
+}
+
+#MenuControls > Button {
+	font-size: 500%;
+	padding: 20px 40px;
+}

@@ -116,6 +116,15 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""34acc0b2-2b93-4074-a16f-34d313ddca9e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @Input: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c227c7b9-d422-408e-8ac6-db7cf4375e19"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,6 +310,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         m_Default_WallGrab = m_Default.FindAction("Wall Grab", throwIfNotFound: true);
         m_Default_Frenzy = m_Default.FindAction("Frenzy", throwIfNotFound: true);
         m_Default_Interact = m_Default.FindAction("Interact", throwIfNotFound: true);
+        m_Default_Escape = m_Default.FindAction("Escape", throwIfNotFound: true);
     }
 
     ~@Input()
@@ -366,6 +387,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_WallGrab;
     private readonly InputAction m_Default_Frenzy;
     private readonly InputAction m_Default_Interact;
+    private readonly InputAction m_Default_Escape;
     public struct DefaultActions
     {
         private @Input m_Wrapper;
@@ -380,6 +402,7 @@ public partial class @Input: IInputActionCollection2, IDisposable
         public InputAction @WallGrab => m_Wrapper.m_Default_WallGrab;
         public InputAction @Frenzy => m_Wrapper.m_Default_Frenzy;
         public InputAction @Interact => m_Wrapper.m_Default_Interact;
+        public InputAction @Escape => m_Wrapper.m_Default_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Default; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -419,6 +442,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Escape.started += instance.OnEscape;
+            @Escape.performed += instance.OnEscape;
+            @Escape.canceled += instance.OnEscape;
         }
 
         private void UnregisterCallbacks(IDefaultActions instance)
@@ -453,6 +479,9 @@ public partial class @Input: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Escape.started -= instance.OnEscape;
+            @Escape.performed -= instance.OnEscape;
+            @Escape.canceled -= instance.OnEscape;
         }
 
         public void RemoveCallbacks(IDefaultActions instance)
@@ -482,5 +511,6 @@ public partial class @Input: IInputActionCollection2, IDisposable
         void OnWallGrab(InputAction.CallbackContext context);
         void OnFrenzy(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

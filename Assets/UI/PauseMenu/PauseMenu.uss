@@ -1,0 +1,10 @@
+/* Base style for the element */
+#root {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Class for making the element visible */
+#root.visible {
+    opacity: 1;
+}

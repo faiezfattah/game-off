@@ -14,6 +14,7 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     public event UnityAction<bool> DashStartEvent;
     public event UnityAction<bool> DashAimEvent;
     public event UnityAction<bool> DashCancelEvent;
+    public event UnityAction EscapeEvent;
     public event UnityAction InteractEvent;
     public event UnityAction FrenzyEvent;
 
@@ -27,6 +28,8 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
     /// return mouse location vector2. Screen space
     /// </summary>
     public event UnityAction<Vector2> MousePositionEvent;
+
+    public bool Paused { get; set; } = false;
 
     private void OnEnable() {
         if (_inputActions == null) {
@@ -54,6 +57,9 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
         MousePositionEvent?.Invoke(ctx.ReadValue<Vector2>());
     }
     public void OnDash(InputAction.CallbackContext ctx) {
+        if (Paused)
+            return;
+
         DashStartEvent?.Invoke(ctx.performed);
         DashAimEvent?.Invoke(ctx.canceled);
         //Debug.Log($"Dash Input Phase: {ctx.phase}");
@@ -83,5 +89,11 @@ public class InputReader : ScriptableObject, Input.IDefaultActions {
 
     private void DisableInput() {
         _inputActions.Default.Disable();
+    }
+
+    public void OnEscape(InputAction.CallbackContext context)
+    {
+        if (context.started)
+            EscapeEvent?.Invoke();
     }
 }
