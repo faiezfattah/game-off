@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Swing LR
+  m_Controller: {fileID: 9100000, guid: b9575400352c5274291fb24352cb2214, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: fd0bf7deb9f2f85469789a0bf69b8b79, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 58d01aff0bde45244a2059cf39593cb4, type: 2}

@@ -81,7 +81,7 @@ public class Lizard : MonoBehaviour {
     private void RotateToPlayer() {
         Vector3 directionToPlayer = (_playerTransform.position - headPivotTransform.position).normalized;
         float   targetAngle       = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-        targetAngle = Mathf.Clamp(targetAngle, -180, 0f);
+        targetAngle = Mathf.Clamp(targetAngle, -90, 0f);
         Quaternion targetRotation = Quaternion.AngleAxis(targetAngle, Vector3.forward);
 
         _currentTween?.Kill();

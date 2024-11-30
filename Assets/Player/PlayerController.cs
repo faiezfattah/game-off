@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour {
     private void Update() {
         if (dirHorizontal != 0) {
             rotatingContainer.transform.rotation = Quaternion.Euler(new Vector3(0, dirHorizontal > 0 ? 0 : 180f, 0));
-            _sprite.flipX = dirHorizontal < 0;
+            _sprite.flipX = dirHorizontal > 0;
         }
 
 

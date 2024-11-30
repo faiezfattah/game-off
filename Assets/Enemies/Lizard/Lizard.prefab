@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8066113664025420769}
   - component: {fileID: 700098302994316662}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gecko_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248235319895334581}
   - component: {fileID: 3099860456053876939}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gecko_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8524888818373489444}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: head_pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   - component: {fileID: 7639067118557027723}
   - component: {fileID: 3049384814298590160}
   - component: {fileID: 9085531548845164930}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Lizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -16.04867, y: 6.7727556, z: -0.37463152}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8524888818373489444}
@@ -255,6 +255,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headPivotTransform: {fileID: 8524888818373489444}
   idleRotationDuration: 0.5
+  SlowDownDuration: 1
+  distance: 5
+  idleSprite: {fileID: 1208759880, guid: 0cc0af9c03b7e9a4e81815d514a56eb5, type: 3}
+  attackSprite: {fileID: -2105399070, guid: 8311c5bbb84a6ed47a3971c010099a5c, type: 3}
+  attackCooldown: 1
+  head: {fileID: 3099860456053876939}
 --- !u!65 &9085531548845164930
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -274,5 +280,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 8.330533, y: 7.0101905, z: 1}
-  m_Center: {x: 5.567655, y: -2.601774, z: 0.5}
+  m_Size: {x: 9.330537, y: 5.1083374, z: 1}
+  m_Center: {x: 6.067657, y: -0.13613129, z: 0.5}
