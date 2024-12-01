@@ -180,32 +180,24 @@ public class PlayerController : MonoBehaviour {
     }
     
     private bool IsSafePlaceSpacious(Vector3 checkPoint, float minClearanceRadius = 1f, float minClearanceHeight = 2f) {
-        // Check ground beneath the point
         if (!Physics.Raycast(checkPoint, Vector3.down, out RaycastHit groundHit, 2f, walkableLayer)) {
-            return false; // No ground found
+            return false; 
         }
-
-        // Create a cylinder-like check for space
-        // First, check if there's enough horizontal space
         Collider[] horizontalHits = Physics.OverlapCapsule(
             checkPoint,
             checkPoint + Vector3.up * minClearanceHeight,
             minClearanceRadius,
-            walkableLayer  // Use the walkable layer or create a separate layer for obstacles
+            walkableLayer 
         );
 
-        // If any colliders are found in the space, it's not spacious
         if (horizontalHits.Length > 0) {
             return false;
         }
-
-        // Optionally, you can add more precise checks
-        // For example, raycasting in multiple directions to ensure no obstacles
         float[] checkAngles = { 0, 45, 90, 135, 180, 225, 270, 315 };
         foreach (float angle in checkAngles) {
             Vector3 checkDir = Quaternion.Euler(0, angle, 0) * Vector3.forward;
             if (Physics.Raycast(checkPoint, checkDir, minClearanceRadius, walkableLayer)) {
-                return false; // Obstacle found in this direction
+                return false; 
             }
         }
 
