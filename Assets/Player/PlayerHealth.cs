@@ -14,7 +14,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Start() {
         // _zeroHealthRoutine  = ZeroHealthCoroutine();
-        _data.health = maxHealth;
+        _data.checkPoint = gameObject.transform.position;
+        _data.health     = maxHealth;
     }
 
     public bool TryReduce(int amount) {

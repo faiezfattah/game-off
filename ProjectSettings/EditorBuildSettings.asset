@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/LoadSaves.unity
     guid: 66c441fa6335f3749b1a3698418afc3c
   - enabled: 1
+    path: Assets/Scenes/STAGE REAL/Intro.unity
+    guid: 0a06a9e581eb74d48a59ab8d14877883
+  - enabled: 1
     path: Assets/Scenes/STAGE REAL/STAGE 1.unity
     guid: fb66898ae871aa94099b448b25b6e594
   - enabled: 1

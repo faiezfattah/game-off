@@ -4,10 +4,11 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class FinalCheck : MonoBehaviour, IInteractable {
-    [SerializeField] private GameObject            pivot;
-    [SerializeField] private PlayerData            playerData;
+    [SerializeField] private GameObject          pivot;
+    [SerializeField] private PlayerData          playerData;
     [SerializeField] private PowerItem.PowerType wrongType;
-    [SerializeField] private Volume                volume;
+    [SerializeField] private Volume              volume;
+    [SerializeField] private LevelLoader              levelLoader;
 
     [Header("Ending animation values")] [SerializeField]
     private float endingAnimationDuration = 5f;
@@ -60,6 +61,8 @@ public class FinalCheck : MonoBehaviour, IInteractable {
         sequence.Append(DOVirtual.Float(0, 10f, endingAnimationDuration, (x) => { colorAdjustment.postExposure.value = x; }));
         sequence.Join(DOVirtual.Float(10, 0, endingAnimationDuration, (x) => { depthOfField.focusDistance.value = x; }));
         sequence.Join(DOVirtual.Float(1, 0.5f, endingAnimationDuration, (x) => { lensDistortion.scale.value = x; }));
+        sequence.AppendInterval(3f);
+        sequence.AppendCallback(() => levelLoader.LoadNextLevel(LevelLoader.SceneIndex.MainMenu));
 
         sequence.Play();
     }
