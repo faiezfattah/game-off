@@ -110,9 +110,14 @@ public class PlayerStateMachine : MonoBehaviour {
         //Debug.Log(_currentState.ToString() + ", previously " + _prevState.ToString());
         _playerController.currentState = _currentState.ToString();
     }
-    public bool godMode = true;
+    public bool godMode = false;
 
     private bool CanTransitionTo(Type to) {
+        
+        #if UNITY_EDITOR
+                godMode = true;
+        #endif
+        
         if (!godMode && !_playerData.Powers.Contains(to) && to != typeof(WalkState) && to != typeof(IdleState) && to != typeof(FallState) && to != typeof(WallSlideState)) return false;
 
         if (transitionMatrix.TryGetValue(_currentState.GetType(), out var transitions)) {
