@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a9e84a5cdaf4344a7881484f998e8b, type: 3}
+  m_Name: s2p3
+  m_EditorClassIdentifier: 
+  items:
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: Have you met my fellows--the Itsy Bitsy Cute Spidy?
+  - dialogueSpeaker: {fileID: 11400000, guid: b6ec97197ad297f4d9c63fa4e4e6d596, type: 2}
+    text: 'Do you mean that spiders who could just killed me? '
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: They're not creepy!
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: You just haven't befriended them!
+  - dialogueSpeaker: {fileID: 11400000, guid: b6ec97197ad297f4d9c63fa4e4e6d596, type: 2}
+    text: ...
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: 'Jump ahead. its quite the fall.  '
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: just remember
+  - dialogueSpeaker: {fileID: 11400000, guid: 6b9204527d89a6b4fb7f5cf32a292fc4, type: 2}
+    text: Be steady, be fast.
+  - dialogueSpeaker: {fileID: 11400000, guid: b6ec97197ad297f4d9c63fa4e4e6d596, type: 2}
+    text: As feather, as fox.
