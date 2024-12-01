@@ -5,6 +5,8 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField]
     private InputReader inputReader;
+    [SerializeField]
+    private PlayerData playerData;
     private UIDocument doc;
 
     private void TogglePause()
@@ -31,6 +33,8 @@ public class PauseMenu : MonoBehaviour
         var root = doc.rootVisualElement.Q("root");
 
         root.Q<Button>("ContinueButton").clicked += TogglePause;
+        root.Q<Button>("SaveButton").clicked += playerData.SaveData;
+        root.Q<Button>("QuitButton").clicked += Application.Quit;
 
         root.RemoveFromClassList("visible");
 

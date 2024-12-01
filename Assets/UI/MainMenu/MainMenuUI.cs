@@ -16,5 +16,22 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("Continue clicked");
             SceneManager.LoadScene("LoadSaves");
         };
+
+        doc.Q<Button>("NewGameButton").clicked += () =>
+        {
+            Debug.Log("NewGame clicked");
+
+            playerData.BeginNewSave();
+            SceneManager.LoadScene("STAGE 1");
+        };
+    }
+
+    private void Start()
+    {
+        if (playerData.SaveCount < 1)
+        {
+            Debug.Log("SaveCount is " + playerData.SaveCount + " disabling continue...");
+            doc.Q<Button>("ContinueButton").visible = false;
+        }
     }
 }

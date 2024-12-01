@@ -1,7 +1,7 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <engine:VisualElement name="root" style="flex-grow: 1;">
         <engine:VisualElement name="VisualElement" style="flex-grow: 0; align-items: flex-start; margin-top: 50px; margin-left: 50px; font-size: 24px; flex-shrink: 0;">
-            <engine:Button text="Back" name="BackButton" style="padding-right: 30px; padding-left: 30px;" />
+            <engine:Button text="Back" name="BackButton" style="padding-right: 70px; padding-left: 70px; background-image: resource(&apos;UI/Sprites/heading_frame&apos;); -unity-slice-scale: 1px; padding-top: 30px; padding-bottom: 30px; background-color: rgba(188, 188, 188, 0); -unity-font-style: bold; color: rgb(255, 255, 255); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
         </engine:VisualElement>
         <engine:ScrollView>
             <engine:ListView name="GameSaves" style="flex-grow: 0;" />

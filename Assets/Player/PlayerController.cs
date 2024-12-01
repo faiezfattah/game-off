@@ -106,6 +106,8 @@ public class PlayerController : MonoBehaviour {
         if (!animator) animator               = GetComponent<Animator>();
         if (!_sprite) _sprite           = GetComponent<SpriteRenderer>();
         _linearVelocity = rb.linearVelocity;
+
+        transform.position = playerData.checkPoint;
     }
 
     private void Update() {

@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfec2103af74c14896b3ccc4c2fb5c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
   loadSaveItemVst: {fileID: 9197481963319205126, guid: 9d2a1178eee9b854995259752058d86d, type: 3}
   loadSavesUiDoc: {fileID: 1560416702}
 --- !u!1 &2085359711
