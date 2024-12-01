@@ -1,20 +1,26 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PotionMixPot : MonoBehaviour, IToggleableTarget {
-    [SerializeField] private Transform endpoint;
-    [SerializeField] private Transform pot;
-    [SerializeField] private bool      active;
-    [SerializeField] private float     moveTime = 5;
-    [SerializeField] private float     maxPotionMix = 3;
-    [SerializeField] private float     changeColorDuration = 1f;
+    [SerializeField] private Transform  endpoint;
+    [SerializeField] private Transform  pot;
+    [SerializeField] private bool       active;
+    [SerializeField] private float      moveTime            = 5;
+    [SerializeField] private float      maxPotionMix        = 3;
+    [SerializeField] private float      changeColorDuration = 1f;
+    [SerializeField] private Light      potionLight;
+    [SerializeField] private GameObject toHide;
 
+
+    [Header("Correct Mix")] [SerializeField]
+    private Potions[] correctMix = new Potions[2];
 
     private Tweener       _tweener;
     private List<Vector3> _positions;
     private Vector3       _current;
-    private Renderer _renderer;
+    private Renderer      _renderer;
 
     public enum Potions {
         Red,
@@ -62,18 +68,33 @@ public class PotionMixPot : MonoBehaviour, IToggleableTarget {
             Debug.Log("potion maxed!");
             return;
         }
+
         _currentHold.Add(type);
         Debug.Log($"Potion added: {type}");
         ChangeColor();
+
+        if (CheckMix()) {
+            toHide.SetActive(false);
+            active = false;
+        }
+    }
+
+    private bool CheckMix() {
+        foreach (var item in correctMix) {
+            if (!_currentHold.Contains(item)) return false;
+        }
+
+        return true;
     }
 
     private void ChangeColor() {
         int   r     = _currentHold.Contains(Potions.Red) ? 1 : 0;
         int   g     = _currentHold.Contains(Potions.Green) ? 1 : 0;
         int   b     = _currentHold.Contains(Potions.Blue) ? 1 : 0;
-        Color color = new Color(r,g,b);
-        _renderer.material.DOColor(color, "_BASE_COLOR", changeColorDuration);
+        Color color = new Color(r, g, b);
+        potionLight.DOColor(color, changeColorDuration);
     }
+
     private void Move() {
         _tweener = pot.transform.DOMove(_current, moveTime)
                       .SetEase(Ease.Linear)
@@ -91,9 +112,12 @@ public class PotionMixPot : MonoBehaviour, IToggleableTarget {
         if (value) {
             _tweener?.Kill();
             Move();
+            potionLight.DOColor(Color.white, changeColorDuration);
         }
         else {
             _tweener?.Pause();
+            potionLight.DOColor(Color.white, changeColorDuration);
+            _currentHold.Clear();
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -7,6 +8,10 @@ public class PotionSolution : MonoBehaviour, IInteractable {
     [SerializeField] private float                maxRaycastDistance;
     [SerializeField] private LayerMask            mixingPotLayerMask;
     [SerializeField] private float                rotateDuration;
+
+    private Sequence _sequence;
+    private void Start() {
+    }
 
     public void Interact() {
         Rotate();
@@ -19,19 +24,11 @@ public class PotionSolution : MonoBehaviour, IInteractable {
     }
 
     private void Rotate() {
-        // gameObject.transform.DORotateQuaternion(Quaternion.Euler(-90, 0, 0), rotateDuration)
-        //           .From(Quaternion.Euler(0,0,0))
-        //           .SetEase(Ease.InOutQuad)
-        //           .OnComplete(Cast)
-        //           .SetLoops(2, LoopType.Yoyo);
-        
-        // manually do the yoyo after func callback. forever hate dotween documentation
-        Sequence mySequence = DOTween.Sequence();
-
-        mySequence.Append(gameObject.transform.DORotateQuaternion(Quaternion.Euler(-90, 0, 0), rotateDuration)
-                                    .SetEase(Ease.InOutQuad));
-        mySequence.AppendCallback(Cast);
-        mySequence.Append(gameObject.transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), rotateDuration)
-                                    .SetEase(Ease.InOutQuad));
+        _sequence = DOTween.Sequence();
+        _sequence.Append(gameObject.transform.DORotateQuaternion(Quaternion.Euler(-90, 0, 0), rotateDuration)
+                                   .SetEase(Ease.InOutQuad));
+        _sequence.AppendCallback(Cast);
+        _sequence.Append(gameObject.transform.DORotateQuaternion(Quaternion.Euler(0, 0, 0), rotateDuration)
+                                   .SetEase(Ease.InOutQuad));
     }
 }

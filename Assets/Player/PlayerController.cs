@@ -124,8 +124,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnInteract() {
-        var hitColliders = new Collider[] { };
-        var size         = Physics.OverlapSphereNonAlloc(transform.position, radius, hitColliders);
+        // Debug.Log("interact pressed ");
+        // var hitColliders = new Collider[] { };
+        // var size         = Physics.OverlapSphereNonAlloc(transform.position, radius, hitColliders);
+        var hitColliders = Physics.OverlapSphere(transform.position, radius);
 
         foreach (var hitCollider in hitColliders) {
             if (!hitCollider.TryGetComponent<IInteractable>(out var interactable)) continue;

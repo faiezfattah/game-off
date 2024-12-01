@@ -12,7 +12,7 @@ public class LeverToggle : MonoBehaviour, IInteractable
     private void Start() {
         foreach (var obj in _object) {
             if (!obj.TryGetComponent<IToggleableTarget>(out var item)) {
-                Debug.Log("an item is incompatible! Make sure it is toggleable");
+                Debug.Log("an item is incompatible! Make sure it is toggleable from " + gameObject.name);
             };
             _target.Add(item);
         }
