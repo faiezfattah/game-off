@@ -53,6 +53,10 @@ public class PlayerHealth : MonoBehaviour
             StopCoroutine(zeroHealth);
         }
     }
+
+    public void Refill() {
+        _data.health = maxHealth;
+    }
     private void Die() {
         Debug.Log("died");
     }
