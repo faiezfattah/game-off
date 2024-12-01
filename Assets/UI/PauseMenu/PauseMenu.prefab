@@ -65,3 +65,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: 77d1ac31fe6916f4f9960a4f733e8713, type: 2}
+  playerData: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}

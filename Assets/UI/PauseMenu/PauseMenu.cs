@@ -30,6 +30,12 @@ public class PauseMenu : MonoBehaviour
     private void Awake()
     {
         doc = GetComponent<UIDocument>();
+
+        inputReader.EscapeEvent += TogglePause;
+    }
+
+    private void Start()
+    {
         var root = doc.rootVisualElement.Q("root");
 
         root.Q<Button>("ContinueButton").clicked += TogglePause;
@@ -37,7 +43,5 @@ public class PauseMenu : MonoBehaviour
         root.Q<Button>("QuitButton").clicked += Application.Quit;
 
         root.RemoveFromClassList("visible");
-
-        inputReader.EscapeEvent += TogglePause;
     }
 }

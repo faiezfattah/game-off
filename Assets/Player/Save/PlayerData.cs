@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Unity.Properties;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [CreateAssetMenu(fileName = "PlayerData", menuName = "Scriptable Objects/PlayerData")]
 public class PlayerData : ScriptableObject
@@ -10,6 +13,27 @@ public class PlayerData : ScriptableObject
     private static string SaveFilePath => Path.Combine(Application.persistentDataPath, "savedData.json");
     private static int LoadedSaveIdx;
     private List<PlayerSavedData> mSavedData = new();
+
+    [CreateProperty]
+    public float HealthUIWidth
+        => health * 68;
+    [CreateProperty]
+    public StyleBackgroundSize HealthUIBackgroundSize
+    {
+        get
+        {
+            var backgroundSize = new StyleBackgroundSize
+            {
+                value = new()
+                {
+                    x = new Length((health >= 3 ? 1 / 3f : health >= 2 ? 2 / 3f : 1f) * 100, LengthUnit.Percent),
+                    y = new Length(100, LengthUnit.Percent)
+                }
+            };
+
+            return backgroundSize;
+        }
+    }
 
     //here exist all data
     //the no-save exist for ui
