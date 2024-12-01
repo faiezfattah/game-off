@@ -29,15 +29,15 @@ public class PlayerData : ScriptableObject
     }
     public bool TryAddPower(PowerItem power) {
         if (Powers.Count >= 3) return false;
-        if (Powers.Contains(power.GetPowerType())) return false;
-        Powers.Add(power.GetPowerType());
+        if (Powers.Contains(PowerItem.GetPowerType(power.type))) return false;
+        Powers.Add(PowerItem.GetPowerType(power.type));
         Debug.Log("added: " + power.ToString());
 
         return true;
     }
     public void ReplacePower(PowerItem newPower, PowerItem oldPower) {
-        Powers.Remove(oldPower.GetPowerType());
-        Powers.Add(newPower.GetPowerType());
+        Powers.Remove(PowerItem.GetPowerType(oldPower.type));
+        Powers.Add(PowerItem.GetPowerType(oldPower.type));
     }
 
     private void OnDisable()

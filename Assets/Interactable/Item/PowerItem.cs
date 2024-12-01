@@ -28,7 +28,7 @@ public class PowerItem : MonoBehaviour, IInteractable {
         //_mesh.enabled = _playerData.PowerUp[GetPowerType()];
         //_collider.enabled = _playerData.PowerUp[GetPowerType()];
     }
-    public Type GetPowerType() {
+    public static Type GetPowerType(PowerType type) {
         if (type == PowerType.Running) return typeof(RunState);
         else if (type == PowerType.Jumping) return typeof(JumpState);
         else if (type == PowerType.Dashing) return typeof(DashState);
