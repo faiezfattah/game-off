@@ -4,34 +4,19 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Lizard : MonoBehaviour {
-    [SerializeField]
-    private Transform headPivotTransform;
-
-    [SerializeField]
-    private float idleRotationDuration = 0.5f;
-
-    [SerializeField]
-    float SlowDownDuration = 1f;
-
-    [SerializeField]
-    private float distance = 5f;
-
-    [SerializeField]
-    private Sprite idleSprite;
-
-    [SerializeField]
-    private Sprite attackSprite;
-
-    [SerializeField]
-    private float attackCooldown = 1;
-
-    [SerializeField]
-    private SpriteRenderer head;
+    [SerializeField] private Transform headPivotTransform;
+    [SerializeField] private float idleRotationDuration = 0.5f;
+    [SerializeField] float SlowDownDuration = 1f;
+    [SerializeField] private float distance = 5f;
+    [SerializeField] private Sprite idleSprite;
+    [SerializeField] private Sprite attackSprite;
+    [SerializeField] private float attackCooldown = 1;
+    [SerializeField] private SpriteRenderer head;
 
     private static Transform _playerTransform;
     private        Tweener   _currentTween;
     private        Coroutine _routine;
-    private Coroutine _slowRoutine;
+    private        Coroutine _slowRoutine;
 
     private void Awake() {
         Assert.IsNotNull(headPivotTransform);
@@ -42,8 +27,6 @@ public class Lizard : MonoBehaviour {
 
     // private void Update()
     // {
-    //     
-    //     
     //     // float currentAngle = Mathf.Atan2(headPivotTransform.transform.localPosition.y, headPivotTransform.transform.localPosition.x) * Mathf.Rad2Deg;
     //     // float angleDifference = Mathf.DeltaAngle(currentAngle, targetAngle);
     //     //headPivotTransform.transform.Rotate(Vector3.forward, Time.deltaTime * 10);
@@ -112,6 +95,7 @@ public class Lizard : MonoBehaviour {
             if (_slowRoutine != null) {
                 StopCoroutine(_slowRoutine);
             }
+
             _slowRoutine = StartCoroutine(ApplySlow(player));
         }
     }
@@ -121,9 +105,11 @@ public class Lizard : MonoBehaviour {
         if (!Mathf.Approximately(player.settings.speedModifier, initialSpeed)) {
             player.settings.speedModifier /= 0.5f;
         }
+
         yield return new WaitForSeconds(SlowDownDuration);
         player.settings.speedModifier = initialSpeed;
     }
+
     private void OnTriggerStay(Collider other) {
         if (other.CompareTag("Player") && _routine == null)
             _routine = StartCoroutine(Attack());

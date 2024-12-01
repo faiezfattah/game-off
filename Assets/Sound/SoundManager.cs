@@ -21,11 +21,10 @@ public class SoundManager : MonoBehaviour {
             musicSource = musicObj.AddComponent<AudioSource>();
             musicObj.transform.SetParent(playerTransform);
         }
-        
         _sfxPlayer = new ObjectPool<AudioSource>(SfxCreation, SfxUse, SfxReturn, SfxDestroy, false, 1, maxSfxCapacity);
     }
 
-    private void PlayMusic(AudioClip clip) {
+    public void PlayMusic(AudioClip clip) {
         musicSource.transform.SetParent(playerTransform);
         musicSource.clip = clip;
         musicSource.loop = true;

@@ -1,10 +1,12 @@
+using System;
 using UnityEngine;
 
-public class Checkpoint : MonoBehaviour, IInteractable
+public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private PlayerData playerData;
 
-    public void Interact() {
+    private void OnTriggerEnter(Collider other) {
+        if (!other.CompareTag("Player")) return;
         playerData.checkPoint = gameObject.transform.position; 
     }
 }
