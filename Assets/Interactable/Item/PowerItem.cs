@@ -18,9 +18,11 @@ public class PowerItem : MonoBehaviour, IInteractable {
     private void Start() {
         _mesh = GetComponent<MeshRenderer>();
         _collider = GetComponent<Collider>();
+        if (_playerData.Powers.Contains(GetPowerType(type))) gameObject.SetActive(false);
     }
     public void Interact() {
         if (_playerData.TryAddPower(this)) return;
+        gameObject.SetActive(false);
         // summon ui here
        
     }
