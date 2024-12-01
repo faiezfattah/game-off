@@ -9,11 +9,11 @@ public class PlayerHealth : MonoBehaviour
 
     public int frenzyCost = 1;
 
-    private Coroutine   zeroHealth;
+    // private Coroutine   zeroHealth;
     private IEnumerator _zeroHealthRoutine;
 
     void Start() {
-        _zeroHealthRoutine  = ZeroHealthCoroutine();
+        // _zeroHealthRoutine  = ZeroHealthCoroutine();
         _data.health = maxHealth;
     }
 
@@ -21,43 +21,52 @@ public class PlayerHealth : MonoBehaviour
         if (!Check(amount)) return false;
 
         _data.health -= amount;
-        TeleportToSafe();
-
-        if (_data.health <= 0) ZeroHealth();
+        
+        if (_data.health <= 0) {
+            Die();
+        } else {TeleportToSafe();}
+        
         return true;
     }
     public bool Check(int amount) {
         return _data.health >= amount;
     }
-    public void TeleportToSafe() {
-        Vector3 loc = _data.lastSafePlace;
+    private void TeleportToSafe() {
+        Vector3    loc     = _data.lastSafePlace;
+        Collider[] results = { };
+        Physics.OverlapSphereNonAlloc(loc, 5f, results, LayerMask.GetMask("Ground"));
+        foreach (var item in results) {
+            if (!item.CompareTag("Unsafe")) {
+                loc = _data.checkPoint;
+            }
+        }
         gameObject.transform.position = loc;
     }
-    private void ZeroHealth() {
-        if (zeroHealth == null) return;
-
-        zeroHealth = StartCoroutine(_zeroHealthRoutine);
-    }
-    private IEnumerator ZeroHealthCoroutine() {
-        float timer = 0;
-        while (timer < zeroHealthTimer) {
-            timer += Time.deltaTime;
-            ZeroHealthCheck();
-            yield return null;
-        }
-        zeroHealth = null;
-        Die();
-    }
-    private void ZeroHealthCheck() {
-        if (_data.health > 0) {
-            StopCoroutine(zeroHealth);
-        }
-    }
+    // private void ZeroHealth() {
+    //     if (zeroHealth == null) return;
+    //
+    //     zeroHealth = StartCoroutine(_zeroHealthRoutine);
+    // }
+    // private IEnumerator ZeroHealthCoroutine() {
+    //     float timer = 0;
+    //     while (timer < zeroHealthTimer) {
+    //         timer += Time.deltaTime;
+    //         ZeroHealthCheck();
+    //         yield return null;
+    //     }
+    //     zeroHealth = null;
+    //     Die();
+    // }
+    // private void ZeroHealthCheck() {
+    //     if (_data.health > 0) {
+    //         StopCoroutine(zeroHealth);
+    //     }
+    // }
 
     public void Refill() {
         _data.health = maxHealth;
     }
     private void Die() {
-        Debug.Log("died");
+        gameObject.transform.position = _data.checkPoint;
     }
 }
