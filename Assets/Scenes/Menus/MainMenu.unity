@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdbf3d94ac90ab84ab076e41b79c74f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  save: {fileID: 11400000, guid: 119ca47322a5b34498e1a68a567f7b95, type: 2}
+  playerData: {fileID: 11400000, guid: 222cf425ea3a32945a4225901f975556, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class PlayerData : ScriptableObject
 
     //Function and utilites
     private void OnEnable() {
+        Debug.Log($"{nameof(PlayerData)} enabled");
         Powers.Clear();
     }
     public bool TryAddPower(PowerItem power) {
@@ -37,6 +38,11 @@ public class PlayerData : ScriptableObject
     public void ReplacePower(PowerItem newPower, PowerItem oldPower) {
         Powers.Remove(oldPower.GetPowerType());
         Powers.Add(newPower.GetPowerType());
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log($"{nameof(PlayerData)} disabled");
     }
     //todo: implement rebuild
 }
