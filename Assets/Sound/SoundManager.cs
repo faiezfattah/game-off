@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour {
     
     private ObjectPool<AudioSource>       _sfxPlayer; 
     private Dictionary<string, AudioSource> _trackedSound = new Dictionary<string, AudioSource>();
-    private void Start() {
+    private void Awake() {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         if (!playerTransform) {Debug.Log("playerTransform is null");}
 

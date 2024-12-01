@@ -210,7 +210,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnTriggerEnter(Collider contextCollider) {
-        Debug.Log("Particle HIT " + contextCollider.name);
+        //Debug.Log("Particle HIT " + contextCollider.name);
     }
     //private void OnDrawGizmos() {
     //    Gizmos.color = Color.cyan;
