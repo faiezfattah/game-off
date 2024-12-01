@@ -1,0 +1,11 @@
+#root {
+    opacity: 0;
+    translate: 0 100px;
+    transition: opacity 0.25s ease-in-out, translate 0.5s ease-in-out;
+}
+
+/* Class for making the element visible */
+#root.visible {
+    opacity: 1;
+    translate: 0;
+}
