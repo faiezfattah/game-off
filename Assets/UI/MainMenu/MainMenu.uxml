@@ -2,10 +2,10 @@
     <Style src="project://database/Assets/UI/MainMenu/MainMenu.uss?fileID=7433441132597879392&amp;guid=623c288b6c1a23146983c1eba5795939&amp;type=3#MainMenu" />
     <Style src="project://database/Assets/UI/Globals.uss?fileID=7433441132597879392&amp;guid=cdb57c2a37203334d9630a9c6c7d6860&amp;type=3#Globals" />
     <engine:VisualElement name="root" style="flex-grow: 1;">
-        <engine:VisualElement name="MenuControls" style="flex-grow: 0; width: 33%; height: 100%;">
-            <engine:Button text="Continue" name="Continue" />
-            <engine:Button text="New Game" />
-            <engine:Button text="Options" />
+        <engine:VisualElement name="MenuControls" style="flex-grow: 0; width: auto; height: 100%; padding-top: 40px; padding-right: 90px; padding-bottom: 40px; padding-left: 90px;">
+            <engine:Button text="Continue" name="Continue" style="background-image: resource(&apos;UI/Sprites/main_menu_box&apos;); -unity-slice-scale: 0.1px; background-color: rgba(188, 188, 188, 0); padding-left: 90px; padding-right: 90px; padding-top: 40px; padding-bottom: 40px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+            <engine:Button text="New Game" style="padding-top: 40px; padding-right: 90px; padding-bottom: 40px; padding-left: 90px; background-image: resource(&apos;UI/Sprites/main_menu_box&apos;); -unity-slice-scale: 0.1px; background-color: rgba(188, 188, 188, 0); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+            <engine:Button text="Options" style="background-color: rgba(188, 188, 188, 0); background-image: resource(&apos;UI/Sprites/main_menu_box&apos;); -unity-slice-scale: 0.1px; padding-top: 40px; padding-right: 90px; padding-bottom: 40px; padding-left: 90px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

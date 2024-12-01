@@ -4,6 +4,6 @@
         <engine:VisualElement name="DialogueBox" style="flex-grow: 0; height: 300px; padding-top: 40px; padding-right: 100px; padding-bottom: 40px; padding-left: 100px; background-image: resource(&apos;UI/Sprites/dialogue_box&apos;); -unity-slice-scale: 0.1px; justify-content: center;">
             <engine:Label text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." name="DialogueContentLabel" style="white-space: normal; font-size: 32px;" />
         </engine:VisualElement>
-        <engine:Label text="Label" name="DialogueSpeakerLabel" style="position: relative; top: -310px; height: 0; font-size: 40px; -unity-font-style: bold; left: 97px;" />
+        <engine:Label text="Label" name="DialogueSpeakerLabel" style="position: absolute; top: auto; height: auto; font-size: 40px; -unity-font-style: bold; left: 100px; align-self: flex-start; background-image: resource(&apos;UI/Sprites/speaker_box&apos;); -unity-slice-scale: 0.1px; padding-top: 40px; padding-bottom: 40px; padding-right: 80px; padding-left: 80px; bottom: 220px;" />
     </engine:VisualElement>
 </engine:UXML>
